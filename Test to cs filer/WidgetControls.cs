@@ -6,7 +6,7 @@ public class WidgetControls : MonoBehaviour {
 
 	public int widgetIndex;
 
-	[SerializeField] private bool buttonIsHeld = false;
+	[SerializeField] private ld = false;
 	private WidgetDetectionAlgorithm widgetAlgorithm;
 
 	void Start () {
