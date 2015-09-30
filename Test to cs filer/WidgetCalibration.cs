@@ -14,7 +14,7 @@ public class WidgetCalibration : MonoBehaviour {
 	// Use this for initialization
 	IEnumerator Start () {
 		yield return null;
-		algor = GetComptectionAlgorithm> ();
+		algor = GetComponent<WidgetDetectionAlgorithm> ();
 		standardText = textField.text;
 		algor.minLength = 0;
 		algor.maxLength = Mathf.Infinity;
