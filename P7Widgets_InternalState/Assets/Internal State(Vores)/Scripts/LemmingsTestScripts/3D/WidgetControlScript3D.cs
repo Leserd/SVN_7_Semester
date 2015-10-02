@@ -15,6 +15,8 @@ public class WidgetControlScript3D : MonoBehaviour {
 	private WidgetDetectionAlgorithm _widgetAlgorithm;			//instance of the widget algorithm
 	float _toolFadeTime = 0.5f;
 
+	float _smoothSpeed = 40;									//The speed at which lerping of rotation and position happens
+
 	void Start () {
 		_widgetAlgorithm = WidgetDetectionAlgorithm.instance;
 		_myTransform = transform;
@@ -67,13 +69,15 @@ public class WidgetControlScript3D : MonoBehaviour {
 
 	void MoveWidget(Widget w)
 	{
-		//NOTE TO SELF: LERP THIS SOMEHOW
 		//Position
-		transform.position = Camera.main.ScreenToWorldPoint(w.position) + Vector3.forward;
+		Vector3 pos = Camera.main.ScreenToWorldPoint(w.position) + Vector3.forward;
+		pos = new Vector3(pos.x, pos.y, 0);
+		transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * _smoothSpeed);
 
 		//Rotation
 		float angle = Vector3.Angle(Vector3.down, w.orientation) * Mathf.Sign(w.orientation.x);
-		transform.eulerAngles = Vector3.forward * angle;
+		//transform.eulerAngles = Vector3.forward * angle;
+		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(Vector3.forward * angle), Time.deltaTime * _smoothSpeed);
 	}
 
 
@@ -108,7 +112,7 @@ public class WidgetControlScript3D : MonoBehaviour {
 			{
 				child.GetComponent<BoxCollider>().enabled = true;
 			}
-			
+
 		}
 	}
 
@@ -134,12 +138,5 @@ public class WidgetControlScript3D : MonoBehaviour {
 		//	}
 
 		//}
-	}
-
-
-
-	void OnMouseOver()
-	{
-
 	}
 }

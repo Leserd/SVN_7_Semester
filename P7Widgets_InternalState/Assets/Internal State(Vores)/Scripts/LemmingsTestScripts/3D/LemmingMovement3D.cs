@@ -86,6 +86,7 @@ public class LemmingMovement3D : MonoBehaviour
 
 	bool UpdateGrounded()
 	{
+		//Check for which direction the collision happens, only ground if direction is down
 		if(_collisions.Count > 0)
 			return true;
 		else
@@ -100,6 +101,7 @@ public class LemmingMovement3D : MonoBehaviour
 
 	void OnCollisionExit(Collision col)
 	{
+		
 		if(col.gameObject.tag == "Ground")
 		{
 			_collisions.Remove(col.gameObject);
@@ -114,6 +116,7 @@ public class LemmingMovement3D : MonoBehaviour
 	{
 		if(col.gameObject.tag == "Ground")
 		{
+			
 			_collisions.Add(col.gameObject);
 
 			Grounded = UpdateGrounded();

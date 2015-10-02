@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Goal3D : MonoBehaviour {
 
-	float _timeBeforeDestroy = 0.8f;
+	float _timeBeforeDestroy = 0.1f;
 	GameManagerScript _gameManager;
 
 
@@ -19,7 +19,7 @@ public class Goal3D : MonoBehaviour {
 		if(col.tag == "Lemming")
 		{
 			print("Lemming reached goal!");
-			_gameManager.LemmingScored();
+			//_gameManager.LemmingScored();
 			Destroy(col.gameObject, _timeBeforeDestroy);
 		}
 	}

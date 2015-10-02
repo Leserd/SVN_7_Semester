@@ -13,12 +13,22 @@ public class GameManagerScript : MonoBehaviour {
 	private int _lemmingsSpawned = 0;
 	private int _score;						//number of lemmings that reached goal
 
+	private bool _showSettings = false;
+
 	const int SPAWN_RATE = 1;				//Lemmings spawned per second
 	const int DELAY_BEFORE_START_SPAWN = 1;
+
+	public int currentLevel;
 
 	public Text scoreText;
 	public Text remainingText;
 	public Text deadText;
+
+	public GameObject settingsPanel;
+	public GameObject gameMenuPanel;
+	public Text levelText;
+
+	public WidgetDetectionAlgorithm algorithm;
 
 	void Awake()
 	{
@@ -26,6 +36,14 @@ public class GameManagerScript : MonoBehaviour {
 		scoreText = GameObject.Find("ScoredLemmings").GetComponent<Text>();
 		remainingText = GameObject.Find("RemainingLemmings").GetComponent<Text>();
 		deadText = GameObject.Find("DeadLemmings").GetComponent<Text>();
+		levelText = GameObject.Find("LevelText").GetComponent<Text>();
+	}
+
+
+
+	void Start()
+	{
+		levelText.text = Application.loadedLevelName;
 	}
 
 
@@ -35,6 +53,27 @@ public class GameManagerScript : MonoBehaviour {
 		{
 			StartSpawn();
 		}
+	}
+
+
+
+	public void StartGame()
+	{
+		//Called from Start Game button
+
+		//Disable game menu panel
+		gameMenuPanel.SetActive(false);
+
+		//Enable widget detection algorithm 
+		//algorithm.enabled = true;
+
+		//Maybe start countdown before lemmings spawn
+		//....
+
+		//Start spawning lemmings
+		StartSpawn();
+
+
 	}
 
 
@@ -70,6 +109,10 @@ public class GameManagerScript : MonoBehaviour {
 		_lemmingsRemaining--;
 		_score++;
 		UpdateUI();
+		if(_score == scoreToWin)
+		{
+			LevelComplete();
+		}
 	}
 
 
@@ -86,10 +129,20 @@ public class GameManagerScript : MonoBehaviour {
 
 
 
+	public void LevelComplete()
+	{
+		//Show a panel saying "Congratulations!" and have a button for moving to the next level
+		Application.LoadLevel("Level " + (currentLevel + 1).ToString());
+	}
+
+
+
 	//This is called when game is lost
 	public void LoseGame()
 	{
-		
+		//Show canvas with "You lost!" box, one button: Retry.
+		//Retry reloads scene
+		//Application.LoadLevel(Application.loadedLevel);
 	}
 
 
@@ -99,5 +152,13 @@ public class GameManagerScript : MonoBehaviour {
 		scoreText.text = "Score: " + _score;
 		remainingText.text = "Lemmings: " + _lemmingsRemaining;
 		deadText.text = "Deaths: " + (_lemmingsSpawned - _lemmingsRemaining - _score).ToString();
+	}
+
+
+
+	public void ToggleSettings()
+	{
+		_showSettings = !_showSettings;
+		settingsPanel.SetActive(_showSettings);
 	}
 }
