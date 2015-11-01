@@ -4,32 +4,45 @@ using System.Collections;
 
 public class LevelSelector : NetworkBehaviour {
 
-
-	// Use this for initialization
-	void Start () {
-	
+	void Start()
+	{
+		if(Application.loadedLevel == 1)
+		{
+			ToggleCanvas();
+		}
 	}
 
-    // Update is called once per frame
-    void Update()
-    {
 
-        if (isServer)
-        {
-            GameObject.Find("ToolboxCanvas").SetActive(false);
-            GameObject.Find("Toolbox Camera").SetActive(false);
+	void OnLevelWasLoaded(int level)
+	{
+		print("LEvel: " + level);
+		if(level == 1)
+		{
+			ToggleCanvas();
+		}
+	}
 
-        }
 
-        if (!isServer && isClient)
-        {
+	void ToggleCanvas()
+	{
+		if(isServer)
+		{
+			if(GameObject.Find("ToolboxCanvas") && GameObject.Find("ToolboxCamera"))
+			{
+				GameObject.Find("ToolboxCanvas").GetComponent<Canvas>().enabled = false;
+				GameObject.Find("ToolboxCamera").GetComponent<Camera>().enabled = false;
+			}
+		}
 
-            GameObject.Find("Main Camera").SetActive(false);
-            GameObject.Find("Canvas").SetActive(false);
+		if(!isServer && isClient)
+		{
 
-        }
-
-    }
-
+			if(GameObject.Find("LevelCanvas") && GameObject.Find("LevelCamera"))
+			{
+				GameObject.Find("LevelCamera").GetComponent<Camera>().enabled = false;
+				GameObject.Find("LevelCanvas").GetComponent<Canvas>().enabled = false;
+			}
+		}
+	}
 
 }

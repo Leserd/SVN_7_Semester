@@ -897,9 +897,11 @@ MonoBehaviour:
   m_PlayerPrefab: {fileID: 126472, guid: f4e8ff944d718624db06f284eb32686f, type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 1
-  m_OfflineScene: 
-  m_OnlineScene: 
-  m_SpawnPrefabs: []
+  m_OfflineScene: StartupScene
+  m_OnlineScene: Level 1
+  m_SpawnPrefabs:
+  - {fileID: 170374, guid: 240df2e59698ea64a85bee12daf24963, type: 2}
+  - {fileID: 118124, guid: cafbcd55e4443234aac52e869095c172, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -931,6 +933,8 @@ MonoBehaviour:
   matchMaker: {fileID: 0}
   matchName: 64656661756c74
   matchSize: 4
+  levelDisconnect: {fileID: 0}
+  toolboxDisconnect: {fileID: 0}
 --- !u!4 &1264137940
 Transform:
   m_ObjectHideFlags: 0

@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
+using System.Collections.Generic;
 
 /*
  * This script is placed on the widget gameObjects in the scene. 
  * It contains the controls of the widgets and the tools chosen by the user.
  */
 
-public class WidgetControlScript : MonoBehaviour {
+public class WidgetControlScript : NetworkBehaviour {
 
 	public int _widgetIndex;									//The index of the widget, to compare with settings in Widget Detection Algorithm gameObject.
 	Transform _myTransform;										//Cache the transform component for better optimisation
@@ -15,9 +17,15 @@ public class WidgetControlScript : MonoBehaviour {
 	private WidgetDetectionAlgorithm _widgetAlgorithm;			//Instance of the widget algorithm
 	float _toolFadeTime = 0.5f;									//The time before tools disappear when widget is not detected 
 
-	float _smoothSpeed = 40;									//The speed at which lerping of rotation and position happens
+	float _smoothSpeed = 20;									//The speed at which lerping of rotation and position happens
 
-	private GameObject _tool;									//The tool assigned to this widget
+	[SyncVar] private GameObject _tool;							//The tool assigned to this widget
+	[SyncVar]
+	public int testInt = 0;
+
+	private GameObject _networkObject;							//The object that each client has authority over
+
+	const float WIDGET_TOOL_DIST_THRESHOLD = 150;
 
 	void Start () {
 		_widgetAlgorithm = WidgetDetectionAlgorithm.instance;	
@@ -26,19 +34,90 @@ public class WidgetControlScript : MonoBehaviour {
 		if(_toolMount.childCount == 1)
 			_tool = _toolMount.transform.GetChild(0).gameObject;
 		HideTool();												//Hide the tool in the beginning, until widget is placed on the board
+
+		Invoke("AssignNetworkObject", 1);
 	}
 	
 
 
 	void Update () {
-		UpdateWidgetInfo();
-
-		if(_buttonIsHeld)
+		if(isServer)
 		{
-			print("I'm touching the widget button!");
+			//print("Widget is server-controlled");
+			UpdateWidgetInfo();
+
+			if(_buttonIsHeld)
+			{
+				print("I'm touching the widget button!");
+			}
+		}
+		else 
+		{
+			//print("Widget is NOT server-controlled");
+			ToolboxCheckPosition();
+		}	
+	}
+
+
+	void ToolboxCheckPosition()
+	{
+		//print(gameObject.name + ": " + Vector2.Distance(Camera.main.WorldToScreenPoint(transform.position), 
+			//GameObject.Find("ToolboxPanel").GetComponent<Toolbox_Move>().CurrentImage.rectTransform.position));
+		
+		foreach(Widget w in _widgetAlgorithm.widgets)
+		{
+			if(w.flags.Contains(_widgetIndex))				//If this widget IS detected...
+			{
+				// Update position and orientation
+				MoveWidget(w);
+
+				CheckDistanceToButton();
+
+				// Button check for flag id 3
+				_buttonIsHeld = CheckButton(w, 3);
+				return;
+			}
 		}
 	}
 
+
+	void CheckDistanceToButton()
+	{
+		if(Vector2.Distance(Camera.main.WorldToScreenPoint(transform.position),
+		GameObject.Find("ToolboxPanel").GetComponent<Toolbox_Move>().CurrentImage.rectTransform.position) < WIDGET_TOOL_DIST_THRESHOLD)
+		{
+			if(_networkObject != null)
+			{
+				//GameObject.Find("GameManager").GetComponent<ToolAssign>().CmdAssign();
+
+				Toolbox_ToolAssign ta = GameObject.Find("ToolboxPanel").GetComponent<Toolbox_Move>().CurrentImage.GetComponent<Toolbox_ToolAssign>();
+
+				if(ta == null)
+					Debug.LogError("Couldn't find toolbox_toolassign");
+
+				_networkObject.GetComponent<ToolAssign>().CmdAssign(_widgetIndex, ta.toolToAssign);
+			}
+			else
+			{
+				print("No network object was found!");
+			}
+		}
+	}
+
+
+	//Save the player's own network object to _networkObject variable
+	void AssignNetworkObject()
+	{
+		sendID[] netObjects = GameObject.FindObjectsOfType<sendID>();
+
+		for(int i = 0; i < netObjects.Length; i++)
+		{
+			if(netObjects[i].isLocalPlayer)
+			{
+				_networkObject = netObjects[i].gameObject;
+			}
+		}
+	}
 
 
 	// Updates the position, orientation and button checks of the widget

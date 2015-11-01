@@ -11,6 +11,7 @@ GameObject:
   - 114: {fileID: 11486506}
   - 114: {fileID: 11481204}
   - 114: {fileID: 11404710}
+  - 114: {fileID: 11490988}
   m_Layer: 0
   m_Name: networkServerPlayer
   m_TagString: Untagged
@@ -36,12 +37,18 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 126472}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c3492a31d154cc4e89db5f27348c15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   widgetID: 0
+  netWidget: {fileID: 0}
+  _players: []
+  tools:
+  - {fileID: 170374, guid: 240df2e59698ea64a85bee12daf24963, type: 2}
+  - {fileID: 118124, guid: cafbcd55e4443234aac52e869095c172, type: 2}
+  - {fileID: 170374, guid: 240df2e59698ea64a85bee12daf24963, type: 2}
 --- !u!114 &11481204
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -85,6 +92,22 @@ MonoBehaviour:
     i15: 111
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &11490988
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 126472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46642ecdd878dce48be3ab02f42329a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tools:
+  - {fileID: 170374, guid: 240df2e59698ea64a85bee12daf24963, type: 2}
+  - {fileID: 118124, guid: cafbcd55e4443234aac52e869095c172, type: 2}
+  - {fileID: 170374, guid: 240df2e59698ea64a85bee12daf24963, type: 2}
+  ta: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -92,6 +115,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: tools.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_AssetId.i0
       value: 244
@@ -166,8 +193,20 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: tools.Array.data[0]
+      value: 
+      objectReference: {fileID: 170374, guid: 240df2e59698ea64a85bee12daf24963, type: 2}
+    - target: {fileID: 0}
+      propertyPath: tools.Array.data[1]
+      value: 
+      objectReference: {fileID: 118124, guid: cafbcd55e4443234aac52e869095c172, type: 2}
+    - target: {fileID: 0}
+      propertyPath: tools.Array.data[2]
+      value: 
+      objectReference: {fileID: 170374, guid: 240df2e59698ea64a85bee12daf24963, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 126472}

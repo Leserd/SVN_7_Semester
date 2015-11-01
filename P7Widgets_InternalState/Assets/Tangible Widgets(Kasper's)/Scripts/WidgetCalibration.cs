@@ -11,6 +11,7 @@ public class WidgetCalibration : MonoBehaviour {
 	private string standardText;
 
 	private WidgetDetectionAlgorithm algor;
+
 	// Use this for initialization
 	IEnumerator Start () {
 		yield return null;
@@ -56,6 +57,6 @@ public class WidgetCalibration : MonoBehaviour {
 	}
 
 	public void ExitButton() {
-		Application.LoadLevel(0);
+		Application.LoadLevel(1);
 	}
 }

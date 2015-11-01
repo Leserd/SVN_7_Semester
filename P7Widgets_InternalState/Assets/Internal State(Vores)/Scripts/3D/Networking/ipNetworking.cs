@@ -4,7 +4,8 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class ipNetworking : NetworkManager {
-
+	public Button levelDisconnect;
+	public Button toolboxDisconnect;
     bool notServer;
 
     public void StartupHost()
@@ -21,7 +22,6 @@ public class ipNetworking : NetworkManager {
         SetPort();
         NetworkManager.singleton.StartClient();
         notServer = true;
-     
     }
 
     void SetIPAdress()
@@ -49,26 +49,20 @@ public class ipNetworking : NetworkManager {
     {
         if(level == 0)
         {
-
             StartCoroutine(SetupMenuButtons());
-
-
         }
+
         if(level == 1)
         {
-            
-            Debug.Log("GAME SCENE LOADED"); 
-            GameObject.Find("ButtonDisconnect").GetComponent<Button>().onClick.RemoveAllListeners();
-            GameObject.Find("ButtonDisconnect").GetComponent<Button>().onClick.AddListener(NetworkManager.singleton.StopHost);
 
-            GameObject.Find("ButtonDisconnect").GetComponent<Button>().onClick.AddListener(isPressed);
-            GameObject.Find("ButtonDisconnect").GetComponent<Button>().onClick.AddListener(LoadMenu);
 
-            GameObject.Find("ToolboxDisconnect").GetComponent<Button>().onClick.RemoveAllListeners();
-            GameObject.Find("ToolboxDisconnect").GetComponent<Button>().onClick.AddListener(NetworkManager.singleton.StopHost);
+			Debug.Log("GAME SCENE LOADED");
+			StartCoroutine(SetupDisconnectButtons());
+			//toolboxDisconnect.onClick.RemoveAllListeners();
+			//toolboxDisconnect.onClick.AddListener(NetworkManager.singleton.StopHost);
 
-            GameObject.Find("ToolboxDisconnect").GetComponent<Button>().onClick.AddListener(isPressed);
-            GameObject.Find("ToolboxDisconnect").GetComponent<Button>().onClick.AddListener(LoadMenu);
+			//toolboxDisconnect.onClick.AddListener(isPressed);
+			//toolboxDisconnect.onClick.AddListener(LoadMenu);
 
         }
         if (level == 2)
@@ -81,6 +75,23 @@ public class ipNetworking : NetworkManager {
 
 
     }
+
+	IEnumerator SetupDisconnectButtons()
+	{
+
+		yield return new WaitForSeconds(0.3f);
+
+		levelDisconnect = GameVariables.LevelDisconnect;
+		toolboxDisconnect = GameVariables.ToolboxDisconnect;
+
+		
+		levelDisconnect.onClick.RemoveAllListeners();
+		levelDisconnect.onClick.AddListener(NetworkManager.singleton.StopHost);
+
+		levelDisconnect.onClick.AddListener(isPressed);
+		levelDisconnect.onClick.AddListener(LoadMenu);
+		
+	}
 
     IEnumerator SetupMenuButtons()
     {

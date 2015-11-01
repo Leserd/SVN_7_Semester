@@ -5,12 +5,12 @@ using System.Collections.Generic;
 public class RobotMovement : MonoBehaviour 
 {
 
-	Rigidbody _rigid;								//The rigidbody component
-	float _speed = 2f;							//300
+	Rigidbody _rigid;											//The rigidbody component
+	float _speed = 2f;								
 	float _decelerationSpeed = 0.96f;
 	float _decelerationSpeedFalling = 0.98f;
 	[SerializeField]bool _grounded = false;
-	Transform _groundObj;							//The object this robot is currently standing on
+	Transform _groundObj;										//The object this robot is currently standing on
 	float _groundedFadeTime = 0.4f;
 	List<GameObject> _collisions = new List<GameObject>();
 	GameManagerScript _gameManager;
@@ -29,10 +29,14 @@ public class RobotMovement : MonoBehaviour
 
 	void Update ()
 	{
+		//Update to see if the robot has fallen too far and should be destroyed
 		UpdateGravity();
-		UpdateMovement();
 
-		//print(_collisions.Count);
+		//Update the grounded state based on collisions
+		UpdateGrounded();
+
+		//Update movement of the robot
+		UpdateMovement();
 	}
 
 
@@ -55,10 +59,39 @@ public class RobotMovement : MonoBehaviour
 
 
 
+	public void UpdateGrounded()
+	{
+		//Check for which direction the collision happens, only ground if direction is down
+		if(_collisions.Count == 0)
+		{
+			Grounded = false;
+		}
+		else
+		{
+			if(Grounded != true)
+				Grounded = true;
+
+			//_groundObj = null;
+			for(int i = 0; i < _collisions.Count; i++)
+			{
+				Vector3 dir = (_collisions[i].transform.position - gameObject.transform.position).normalized;
+				if(dir.y > 0)
+				{
+					//If the collision is up, remove it from list
+					_collisions.Remove(_collisions[i].gameObject);
+				}
+			}
+		}
+
+	}
+
+
+
 	void UpdateMovement()
 	{
 		Vector3 dir = transform.TransformDirection(transform.right);
-		if(_grounded && _groundObj != null)
+		//if(_grounded && _groundObj != null)
+		if(_grounded)
 		{
 			
 			//_rigid.AddForce(dir * _speed * Time.deltaTime);
@@ -84,29 +117,22 @@ public class RobotMovement : MonoBehaviour
 
 
 
-	bool UpdateGrounded()
-	{
-		//Check for which direction the collision happens, only ground if direction is down
-		if(_collisions.Count > 0)
-			return true;
-		else
-		{
-			_groundObj = null;
-			return false;
-		}
-			
-	}
-
-
-
 	void OnCollisionExit(Collision col)
 	{
 		
-		if(col.gameObject.tag == "Ground")
+		//if(col.gameObject.tag == "Ground")
+		//{
+		//	//_collisions.Remove(col.gameObject);
+
+		//	//Grounded = UpdateGrounded();
+
+		//	Grounded = false;
+		//}
+
+
+		if(_collisions.Contains(col.gameObject))
 		{
 			_collisions.Remove(col.gameObject);
-
-			Grounded = UpdateGrounded();
 		}
 	}
 
@@ -116,11 +142,20 @@ public class RobotMovement : MonoBehaviour
 	{
 		if(col.gameObject.tag == "Ground")
 		{
-			
-			_collisions.Add(col.gameObject);
+			//Check in which direction the collision occured
+			Vector3 dir = (col.gameObject.transform.position - gameObject.transform.position).normalized;
 
-			Grounded = UpdateGrounded();
-			_groundObj = col.transform;
+			//If the collision happened downwards, set grounded = true;
+			if(dir.y < 0)
+			{
+				//print("DOWN");
+				//_collisions.Add(col.gameObject);
+
+				//Grounded = UpdateGrounded();
+				//_groundObj = col.transform;
+				//Grounded = true;
+				_collisions.Add(col.gameObject);
+			}
 		}
 	}
 }

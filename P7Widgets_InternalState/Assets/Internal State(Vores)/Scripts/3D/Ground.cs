@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Ground : MonoBehaviour {
+public class Ground : NetworkBehaviour {
 
 
 	//void OnCollisionExit(Collision col)

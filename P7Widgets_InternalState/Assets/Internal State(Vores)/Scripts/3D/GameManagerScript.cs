@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.Networking;
+using System.Collections.Generic;
 
-public class GameManagerScript : MonoBehaviour {
+public class GameManagerScript : NetworkBehaviour {
 	
 	public GameObject robotPrefab;
 	public GameObject clawPrefab;
@@ -37,10 +39,21 @@ public class GameManagerScript : MonoBehaviour {
 	public Transform[] levelLocations;
 	private Transform _currentLevelLocation;
 
+	public Button _levelDisc, _toolboxDisc;
 
 	void Awake()
 	{
-		
+		GameVariables.LevelDisconnect = _levelDisc;
+		GameVariables.ToolboxDisconnect = _toolboxDisc;
+
+		GameVariables.Players = new List<WidgetControlScript>();
+		for(int i = 0; i < GameObject.FindObjectsOfType<WidgetControlScript>().Length; i++)
+		{
+			GameVariables.Players.Add(GameObject.Find("Player " + (i + 1).ToString()).GetComponent<WidgetControlScript>());
+		}
+
+		GameVariables.ToolboxCanvas = GameObject.Find("ToolboxPanel").GetComponent<Toolbox_Move>();
+		GameVariables.WidgetAlgorithm = WidgetDetectionAlgorithm.instance;
 
 		//Set up variables in case they were not set in the inspector
 		if(scoreText == null) scoreText = GameObject.Find("ScoredRobots").GetComponent<Text>();
@@ -70,6 +83,11 @@ public class GameManagerScript : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.Space))
 		{
 			StartSpawn();
+		}
+
+		if(settingsPanel == null)
+		{
+			
 		}
 	}
 
