@@ -1,3 +1,10 @@
+Mono path[0] = 'C:/Users/Andreas/Documents/SVN_7_Semester/P7Widgets_InternalState/BuildPC_Data/Managed'
+Mono path[1] = 'C:/Users/Andreas/Documents/SVN_7_Semester/P7Widgets_InternalState/BuildPC_Data/Mono'
+Mono config path = 'C:/Users/Andreas/Documents/SVN_7_Semester/P7Widgets_InternalState/BuildPC_Data/Mono/etc'
+PlayerConnection initialized from C:/Users/Andreas/Documents/SVN_7_Semester/P7Widgets_InternalState/BuildPC_Data (debug = 0)
+PlayerConnection initialized network socket : 0.0.0.0 55348
+Multi-casting "[IP] 172.24.158.104 [Port] 55348 [Flags] 2 [Guid] 934414306 [EditorId] 3203534077 [Version] 1048832 [Id] WindowsPlayer(AndreasLaptop) [Debug] 0" to [225.0.0.222:54997]...
+PlayerConnection already initialized - listening to [172.24.158.104:55348]
 Initialize engine version: 5.1.1f1 (2046fc06d4d8)
 GfxDevice: creating device client; threaded=1
 Direct3D:
@@ -16,45 +23,38 @@ Platform assembly: C:\Users\Andreas\Documents\SVN_7_Semester\P7Widgets_InternalS
 Loading C:\Users\Andreas\Documents\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
 Platform assembly: C:\Users\Andreas\Documents\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
 Loading C:\Users\Andreas\Documents\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
-- Completed reload, in  0.056 seconds
-desktop: 1366x768 60Hz; virtual: 2806x900 at 0,0
+- Completed reload, in  0.054 seconds
+desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
 Platform assembly: C:\Users\Andreas\Documents\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\Andreas\Documents\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\System.dll (this message is harmless)
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 15a0 -> priority: 1 
-  Thread -> id: 16b0 -> priority: 1 
+  Thread -> id: 14cc -> priority: 1 
+  Thread -> id: 1298 -> priority: 1 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 5.093519 ms
-NullReferenceException: Object reference not set to an instance of an object
-  at Goal.Awake () [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at Goal.Awake () [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
-
+Shader 'Custom/OutlineShaderBumped': fallback shader 'Outlined/Silhouetted Diffuse' not found
+UnloadTime: 4.764276 ms
 GAME SCENE LOADED
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:Log(Object)
+ipNetworking:OnLevelWasLoaded(Int32) (at C:\Users\Andreas\Documents\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\Networking\ipNetworking.cs:59)
  
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+(Filename: C:/Users/Andreas/Documents/SVN_7_Semester/P7Widgets_InternalState/Assets/Internal State in Widgets/Scripts/Networking/ipNetworking.cs Line: 59)
 
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 633.
-Total: 0.391328 ms (FindLiveObjects: 0.027665 ms CreateObjectMapping: 0.014725 ms MarkObjects: 0.327520 ms  DeleteObjects: 0.020972 ms)
-
-wid: 2, tool: 1
+NullReferenceException: Object reference not set to an instance of an object
+  at GameManagerScript.Awake () [0x00075] in C:\Users\Andreas\Documents\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\GameManagerScript.cs:70 
+UnityEngine.GameObject:SetActive(Boolean)
+UnityEngine.Networking.NetworkServer:SpawnObjects() (at C:\buildslave\unity\build\Extensions\Networking\Runtime\NetworkServer.cs:1535)
+UnityEngine.Networking.NetworkManager:FinishLoadScene() (at C:\buildslave\unity\build\Extensions\Networking\Runtime\NetworkManager.cs:517)
+UnityEngine.Networking.NetworkManager:Update() (at C:\buildslave\unity\build\Extensions\Networking\Runtime\NetworkManager.cs:537)
  
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+(Filename: C:/Users/Andreas/Documents/SVN_7_Semester/P7Widgets_InternalState/Assets/Internal State in Widgets/Scripts/GameManagerScript.cs Line: 70)
 
-wid: 1, tool: 2
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+System memory in use before: 19.5 MB.
+System memory in use after: 19.5 MB.
 
-wid: 1, tool: 1
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 903.
+Total: 0.595255 ms (FindLiveObjects: 0.070056 ms CreateObjectMapping: 0.034358 ms MarkObjects: 0.456035 ms  DeleteObjects: 0.032573 ms)
 

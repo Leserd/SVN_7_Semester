@@ -10,7 +10,7 @@ PlayerSettings:
   targetResolution: 0
   accelerometerFrequency: 60
   companyName: P7
-  productName: Widgets_InternalState_v.1.05
+  productName: P7Robots_v.1.15
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_ShowUnitySplashScreen: 1
@@ -71,7 +71,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleIdentifier: com.P7.Widgets_InternalState
+  bundleIdentifier: com.P7.Robots
   bundleVersion: 1.0
   preloadedAssets: []
   metroEnableIndependentInputSource: 0

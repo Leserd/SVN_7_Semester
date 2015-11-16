@@ -7,6 +7,9 @@ TagManager:
   - Ground
   - Trampoline
   - Robot
+  - Goal
+  - Projectile
+  - ForceField
   layers:
   - Default
   - TransparentFX
