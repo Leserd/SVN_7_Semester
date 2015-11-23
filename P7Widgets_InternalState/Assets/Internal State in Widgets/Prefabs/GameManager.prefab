@@ -10,6 +10,8 @@ GameObject:
   - 4: {fileID: 418204}
   - 114: {fileID: 11406712}
   - 114: {fileID: 11422552}
+  - 114: {fileID: 11436422}
+  - 82: {fileID: 8287728}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -29,6 +31,76 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!82 &8287728
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160640}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!114 &11406712
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -42,20 +114,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   robotPrefab: {fileID: 124678, guid: 245050b59ce65cf48838c7641a0b256d, type: 2}
   clawPrefab: {fileID: 124736, guid: b0c89d9bdd132594e90fca86114b5068, type: 2}
-  robotsToSpawn: 0200000003000000
-  scoreToWin: 0200000002000000
+  robotsToSpawn: 02000000030000000200000003000000
+  scoreToWin: 02000000020000000100000003000000
   scoreText: {fileID: 0}
   remainingText: {fileID: 0}
   levelText: {fileID: 0}
   cam: {fileID: 0}
   settingsPanel: {fileID: 0}
   gameMenuPanel: {fileID: 0}
+  levelCompletePanel: {fileID: 0}
+  retryLevelPanel: {fileID: 0}
+  finalScorePanel: {fileID: 0}
   levelTextMenu: {fileID: 0}
+  savedToolFill: {fileID: 0}
+  players:
+  - {fileID: 0}
+  - {fileID: 0}
+  _robotExplosionSound: {fileID: 0}
+  _robotScoreSound: {fileID: 0}
   algorithm: {fileID: 0}
   levelLocations:
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _levelDisc: {fileID: 0}
+  _toolboxDisc: {fileID: 0}
+  _firstGoal: {fileID: 0}
 --- !u!114 &11422552
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160640}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46642ecdd878dce48be3ab02f42329a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tools:
+  - {fileID: 170374, guid: 240df2e59698ea64a85bee12daf24963, type: 2}
+  - {fileID: 118124, guid: cafbcd55e4443234aac52e869095c172, type: 2}
+  - {fileID: 115378, guid: be2aad14ee3da40459db93a1e4ff2635, type: 2}
+  ta: {fileID: 0}
+--- !u!114 &11436422
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -63,11 +165,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 160640}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46642ecdd878dce48be3ab02f42329a7, type: 3}
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tools: []
-  widgets: []
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 239
+    i1: 100
+    i2: 249
+    i3: 106
+    i4: 106
+    i5: 203
+    i6: 215
+    i7: 132
+    i8: 75
+    i9: 191
+    i10: 13
+    i11: 158
+    i12: 208
+    i13: 200
+    i14: 103
+    i15: 26
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -9,6 +9,11 @@ public class GameManagerScript : NetworkBehaviour {
 	public GameObject robotPrefab;
 	public GameObject clawPrefab;
 
+    public Canvas toolboxCanvas;
+    public Canvas gameCanvas;
+    public Camera toolboxCamera;
+    public Camera gameCamera;
+
 	public int[] robotsToSpawn;
 	public int[] scoreToWin;
 	private bool _isSpawning = false;
@@ -22,7 +27,8 @@ public class GameManagerScript : NetworkBehaviour {
 	private bool _showSettings = false;
 
 	const int SPAWN_RATE = 1;					//robots spawned per second
-	const int DELAY_BEFORE_START_SPAWN = 1;
+	const int DELAY_BEFORE_START_SPAWN = 1;     //The extra delay after counting down to spawn
+    const float SPAWN_COUNT_DOWN_TIME = 3;      //The time to count down before spawning
 	const float CAMERA_LERP_TIME = 3;			//The time it takes for camera to move to the next level location
 
 	private int _currentLevel = 1;				//Starts at 1
@@ -43,8 +49,8 @@ public class GameManagerScript : NetworkBehaviour {
 
 	public AudioClip _robotExplosionSound;		//Sound when robot explodes
 	public AudioClip _robotScoreSound;			//Sound when robot arrives at goal
-
-	public WidgetDetectionAlgorithm algorithm;
+    public AudioClip levelCompleteSound;
+    public WidgetDetectionAlgorithm algorithm;
 
 	public Transform[] levelLocations;
 	private Transform _currentLevelLocation;
@@ -54,7 +60,13 @@ public class GameManagerScript : NetworkBehaviour {
 	public Button _levelDisc, _toolboxDisc;
 	public Goal _firstGoal;
 
-	void Awake()
+    public GameObject explosion;
+
+    public Text spawnCountdownText;
+    private float timeBeforeSpawn = 0;
+
+
+    void Awake()
 	{
 		_audio = GetComponent<AudioSource>();
 		if(savedToolFill == null) savedToolFill = GameObject.Find("Saved_Fill").GetComponent<Image>();
@@ -62,24 +74,25 @@ public class GameManagerScript : NetworkBehaviour {
 		GameVariables.LevelDisconnect = _levelDisc;
 		GameVariables.ToolboxDisconnect = _toolboxDisc;
 		GameVariables.CurrentGoal = _firstGoal;
-		GameVariables.GameManager = this;
+		GameVariables.GameManager = GetComponent<GameManagerScript>();
 		GameVariables.SavedToolFill = savedToolFill;
 
-		if(players == null)
+        //if(players == null)
+        //{
+        //	GameVariables.Players = new List<WidgetControlScript>();
+        //	for(int i = 0; i < FindObjectsOfType<WidgetControlScript>().Length; i++)
+        //	{
+        //		GameVariables.Players.Add(GameObject.Find("Player " + (i + 1).ToString()).GetComponent<WidgetControlScript>());
+        //	}
+        //}
+        //else
+        //{
+        GameVariables.Players = new List<WidgetControlScript>();
+        for (int i = 0; i < players.Length; i++)
 		{
-			GameVariables.Players = new List<WidgetControlScript>();
-			for(int i = 0; i < GameObject.FindObjectsOfType<WidgetControlScript>().Length; i++)
-			{
-				GameVariables.Players.Add(GameObject.Find("Player " + (i + 1).ToString()).GetComponent<WidgetControlScript>());
-			}
+			GameVariables.Players.Add(players[i]);
 		}
-		else
-		{
-			for(int i = 0; i < players.Length; i++)
-			{
-				GameVariables.Players.Add(players[i]);
-			}
-		}
+		//}
 		
 
 		GameVariables.ToolboxCanvas = GameObject.Find("ToolboxPanel").GetComponent<Toolbox_Move>();
@@ -113,9 +126,33 @@ public class GameManagerScript : NetworkBehaviour {
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.Space))
 		{
-			StartSpawn();
+            ToggleToolbox();
 		}
 	}
+
+
+
+    public void ToggleToolbox()
+    {
+        if(toolboxCanvas.enabled == true)
+        {
+            toolboxCanvas.enabled = false;
+            toolboxCamera.enabled = false;
+            gameCanvas.enabled = true;
+            gameCamera.enabled = true;
+
+            GameStateManager.State = GameState.GAME;
+        }
+        else
+        {
+            gameCanvas.enabled = false;
+            gameCamera.enabled = false;
+            toolboxCanvas.enabled = true;
+            toolboxCamera.enabled = true;
+
+            GameStateManager.State = GameState.TOOLBOX;
+        }
+    }
 
 
 
@@ -137,15 +174,13 @@ public class GameManagerScript : NetworkBehaviour {
 	}
 
 
-	
-
-
 
 	void StartSpawn()
 	{
 		if(!_isSpawning && _robotsRemaining == 0)
 		{
-			InvokeRepeating("Spawn", DELAY_BEFORE_START_SPAWN, SPAWN_RATE);
+            //InvokeRepeating("Spawn", DELAY_BEFORE_START_SPAWN, SPAWN_RATE);
+            StartCoroutine(CountDownSpawn());
 		}
 	}
 
@@ -180,42 +215,52 @@ public class GameManagerScript : NetworkBehaviour {
 	{
 		_robotsRemaining--;
 		_score++;
+
+        //Play score sound
+        PlaySound(_robotScoreSound);
+
+        UpdateUI();
 		
-		UpdateUI();
-		
-		if(_score >= scoreToWin[_currentLevel - 1] && _robotsRemaining == 0)
-		{
-			_savedRobots += _score;
-			LevelComplete();
-		}
-		if(_robotsRemaining == 0 && _score < scoreToWin[_currentLevel - 1])
-		{
-			LoseGame();
-		}
-	}
+        CheckLevelConditions();
+    }
 
 
 
-	public void RobotDied()
+	public void RobotDied(Transform robot)
 	{
-		//Show explosion where robot died
-		//...
-		//Play explosion sound
-		PlaySound(_robotExplosionSound);
+        //Show explosion where robot died
+        Instantiate(explosion, robot.position, Quaternion.identity);
+        //Play explosion sound
+        PlaySound(_robotExplosionSound);
 
 		_robotsRemaining--;
 		UpdateUI();
 
-		//if(!_isSpawning && _score + _robotsRemaining < scoreToWin[_currentLevel - 1])
-		//{
-		//	LoseGame();
-		//}
-
-		if(_robotsSpawned == robotsToSpawn[_currentLevel - 1] && _robotsRemaining == 0 && _score < scoreToWin[_currentLevel - 1])
-		{
-			LoseGame();
-		}
+        CheckLevelConditions();
 	}
+
+
+
+    //Check if the game matches win or loss conditions
+    public void CheckLevelConditions()
+    {
+        if(_robotsRemaining == 0 && _robotsSpawned == robotsToSpawn[_currentLevel - 1])
+        {
+            if (_score >= scoreToWin[_currentLevel - 1])
+            {
+                _savedRobots += _score;
+                LevelComplete();
+            }
+            else if ( _score < scoreToWin[_currentLevel - 1])
+            {
+                LoseGame();
+            }
+        }
+        else
+        {
+            return;
+        }
+    }
 
 
 
@@ -229,6 +274,11 @@ public class GameManagerScript : NetworkBehaviour {
 	//Reset variables related to the robots, as new level will start
 	void ResetVariables()
 	{
+        //Destroy all robots as a safety measure
+        GameObject[] robots = GameObject.FindGameObjectsWithTag("Robot");
+        foreach (GameObject go in robots)
+            Destroy(go);
+
 		_robotsRemaining = 0;
 		_robotsSpawned = 0;
 		_score = 0;
@@ -243,8 +293,8 @@ public class GameManagerScript : NetworkBehaviour {
 		levelTextMenu.text = "Level " + _currentLevel;
 
 		//The values in the info bar in the top of the screen
-		scoreText.text = "Score: " + _score;
-		remainingText.text = "Robots: " + _robotsRemaining;
+		scoreText.text = "Score: " + _score + "/" + scoreToWin[_currentLevel - 1];
+		remainingText.text = "Robots: " + _robotsRemaining + "/" + robotsToSpawn[_currentLevel - 1];
 		levelText.text = "Level: " + _currentLevel;
 	}
 
@@ -277,21 +327,17 @@ public class GameManagerScript : NetworkBehaviour {
 
 	public void LevelComplete()
 	{
-		//TODO: Show a panel saying "Congratulations!" and have a button for moving to the next level
-		//Application.LoadLevel("Level " + (currentLevel + 1).ToString());
-		//StartCoroutine("MoveCameraToNextLevel");
 		if(CurrentLevel < levelLocations.Length)
 		{
 			ResetWidgetTools();
+            //DebugConsole.Log("Reset Tools, level:  " + CurrentLevel);
 			levelCompletePanel.SetActive(true);
+            PlaySound(levelCompleteSound);
 		}
 		else
 		{
 			GameOver();
 		}
-		
-
-		
 	}
 
 
@@ -301,7 +347,7 @@ public class GameManagerScript : NetworkBehaviour {
 	{
 		//TODO: Show canvas with "You lost!" box, one button: Retry.
 		//TODO: Retry reloads scene
-		ResetWidgetTools();
+		//ResetWidgetTools();
 		retryLevelPanel.SetActive(true);
 		//Application.LoadLevel(Application.loadedLevel);
 	}
@@ -342,10 +388,11 @@ public class GameManagerScript : NetworkBehaviour {
 	public void GameOver()
 	{
 		Debug.Log("GameOver");
-		Text finalScore = finalScorePanel.transform.FindChild("FinalScore").GetComponent<Text>();
+        PlaySound(levelCompleteSound);
+        Text finalScore = finalScorePanel.transform.FindChild("FinalScore").GetComponent<Text>();
 		finalScore.text = "Robots: " + _savedRobots.ToString() + " / " + CalculateMaxRobots() + "\n" + "Retries: " + _retries;
-		finalScorePanel.SetActive(true); 
-	}
+		finalScorePanel.SetActive(true);
+    }
 
 
 
@@ -404,6 +451,30 @@ public class GameManagerScript : NetworkBehaviour {
 			Debug.LogWarning("No audio clip was found.");
 		}
 	}
+
+
+
+    IEnumerator CountDownSpawn()
+    {
+        timeBeforeSpawn = SPAWN_COUNT_DOWN_TIME;
+        spawnCountdownText.enabled = true;
+
+        while(timeBeforeSpawn > 0)
+        {
+            timeBeforeSpawn -= Time.deltaTime;
+            spawnCountdownText.text = timeBeforeSpawn.ToString("F0");
+            yield return new WaitForEndOfFrame();
+        }
+        spawnCountdownText.text = "GO";
+        GameVariables.CurrentSpawn.GetComponent<Spawner>().Open();
+        GameVariables.CurrentGoal.Open();
+        InvokeRepeating("Spawn", DELAY_BEFORE_START_SPAWN, SPAWN_RATE);
+
+        yield return new WaitForSeconds(DELAY_BEFORE_START_SPAWN);
+
+        spawnCountdownText.enabled = false;
+        StopCoroutine(CountDownSpawn());
+    }
 
 
 

@@ -114,17 +114,25 @@ public class ToolAssign : NetworkBehaviour {
 		//Find widget tool mount
 		Transform mount = widget.ToolMount;
 
-		//Instantiate tool in tool mount pos
-		GameObject tool = Instantiate(tools[toolID - 1], mount.position, widget.transform.rotation) as GameObject;
-
-		//Assign tool mount as tool parent
-		tool.transform.parent = mount;
-
 		//Remove current tool from widget
 		widget.RemoveTool();
 
-		//Assign tool to widget
-		widget.Tool = tool;
+        //For safety measures, destroy all children of widget
+        Transform[] children = mount.transform.GetComponentsInChildren<Transform>(); 
+        foreach(Transform child in children)
+        {
+            if(child != mount.transform)
+                Destroy(child.gameObject);
+        }
+
+        //Instantiate tool in tool mount pos
+        GameObject tool = Instantiate(tools[toolID - 1], mount.position, widget.transform.rotation) as GameObject;
+
+        //Assign tool mount as tool parent
+        tool.transform.parent = mount;
+
+        //Assign tool to widget
+        widget.Tool = tool;
 
 		NetworkServer.Spawn(tool);
 	}  

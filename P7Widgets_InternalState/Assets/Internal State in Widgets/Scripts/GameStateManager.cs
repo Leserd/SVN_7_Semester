@@ -2,7 +2,7 @@
 using System.Collections;
 
 public static class GameStateManager {
-	private static GameState _state = GameState.SETUP;
+	private static GameState _state = GameState.GAME;
 
 	public static GameState State
 	{

@@ -15,7 +15,6 @@ public static class GameVariables {
 	private static Transform _currentSpawn;
 	private static Image _savedToolFill;
 
-
 	public static Button LevelDisconnect{
 		get { return _levelDisconnect; }
 		set { _levelDisconnect = value; }

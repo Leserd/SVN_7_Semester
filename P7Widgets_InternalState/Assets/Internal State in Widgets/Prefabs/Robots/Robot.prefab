@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _grounded: 0
+  explosion: {fileID: 146712, guid: a9719f4fc5343ac4d8e7477778dec4d9, type: 2}
 --- !u!136 &13696484
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -122,6 +123,10 @@ Prefab:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 146712, guid: a9719f4fc5343ac4d8e7477778dec4d9, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 124678}

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Toolbox_Move : MonoBehaviour {
 
 	private float _maxX;
-	private float _minX = 600f;
+	private float _minX = SPACE_BETWEEN_TOOlS;
 
 	private float _panSpeed = 10f;
 
@@ -20,6 +20,7 @@ public class Toolbox_Move : MonoBehaviour {
 
 	public Button leftArrow, rightArrow;
 
+    const float SPACE_BETWEEN_TOOlS = 700;
 
 	void Start()
 	{
@@ -40,8 +41,8 @@ public class Toolbox_Move : MonoBehaviour {
 				images.Add(transform.GetChild(i).GetComponent<Toolbox_ToolAssign>());
 			}
 		}
-		_maxX = 600 - 600 * (images.Count - 1);			//Every tool in the toolbox has an X-value 600 from the previous
-	}
+		_maxX = SPACE_BETWEEN_TOOlS - SPACE_BETWEEN_TOOlS * (images.Count - 1);         //Every tool in the toolbox has an X-value SPACE_BETWEEN_TOOlS from the previous
+    }
 
 
 
@@ -59,7 +60,7 @@ public class Toolbox_Move : MonoBehaviour {
 	IEnumerator Move(int dir)
 	{
 		_moving = true;
-		Vector2 destination = new Vector2(_rect.anchoredPosition.x + (600 * dir), _rect.anchoredPosition.y);
+		Vector2 destination = new Vector2(_rect.anchoredPosition.x + (SPACE_BETWEEN_TOOlS * dir), _rect.anchoredPosition.y);
 
 		while(_rect.anchoredPosition != destination){
 			_rect.anchoredPosition = Vector2.Lerp(_rect.anchoredPosition, destination, _panSpeed * Time.deltaTime);

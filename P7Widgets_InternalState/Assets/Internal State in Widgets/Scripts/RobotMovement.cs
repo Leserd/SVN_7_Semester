@@ -15,6 +15,7 @@ public class RobotMovement : MonoBehaviour
 	List<GameObject> _collisions = new List<GameObject>();
 	GameManagerScript _gameManager;
 
+
 	//Fall time
 	//Smid alle OnCollision herind og så bare kald en generisk funktion på tool
 
@@ -52,7 +53,7 @@ public class RobotMovement : MonoBehaviour
 		//	_rigid.velocity *= _decelerationSpeedFalling;
 
 		if(transform.position.y < -5){
-			_gameManager.RobotDied();
+			_gameManager.RobotDied(transform);
 			Destroy(gameObject);
 		}
 	}
@@ -74,6 +75,8 @@ public class RobotMovement : MonoBehaviour
 			//_groundObj = null;
 			for(int i = 0; i < _collisions.Count; i++)
 			{
+                if (_collisions[i] == null) _collisions.RemoveAt(i);
+
 				Vector3 dir = (_collisions[i].transform.position - gameObject.transform.position).normalized;
 
 				//Remove from collisions if it is disabled

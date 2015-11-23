@@ -22,6 +22,19 @@ public class ConveyorBelt : MonoBehaviour {
 	}
 
 
+    void OnCollisionStay(Collision col)
+    {
+        if(col.transform.tag == "Robot")
+        {
+            if(_audio.isPlaying == false)
+            {
+                PlaySound(_conveyorSound);
+            }
+        }
+    }
+
+
+
 	public void PlaySound(AudioClip clip)
 	{
 		if(clip != null)

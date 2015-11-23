@@ -7,7 +7,7 @@ public class DeathTrigger : MonoBehaviour {
 	{
 		if(col.tag == "Robot")
 		{
-			GameVariables.GameManager.RobotDied();
+			GameVariables.GameManager.RobotDied(col.transform);
 			Destroy(col.gameObject);
 		}
 	}

@@ -16,35 +16,41 @@ public class turret3D : MonoBehaviour {
 
     private float nextFire;
 
+    public float levelToEnable = 4;
+
+    AudioSource _audio;
+    public AudioClip laserSound;
 
     void Start()
     {
+        _audio = GetComponent<AudioSource>();
 		_transform = this.transform;
 		transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, minAngle);
     }
 
 
 
-    void Update()
+    void LateUpdate()
     {
-        angle = transform.eulerAngles.z;
-
-        Shoot();
-
-		if(angle <= minAngle && angle <= maxAngle)
+        if(GameVariables.GameManager.CurrentLevel == levelToEnable)
         {
-            speed = 50;
+            angle = transform.eulerAngles.z;
 
+            Shoot();
+
+            if (angle <= minAngle && angle <= maxAngle)
+            {
+                speed = 50;
+
+            }
+            if (angle >= maxAngle && angle >= minAngle)
+            {
+                speed = -50;
+
+            }
+
+            transform.Rotate(0, 0, speed * Time.deltaTime);
         }
-		if(angle >= maxAngle && angle >= minAngle)
-        {
-            speed = -50;
-
-        }
-
-        transform.Rotate(0, 0, speed * Time.deltaTime);
-
-
     }
 
 
@@ -54,11 +60,26 @@ public class turret3D : MonoBehaviour {
     {
         if (Time.time > nextFire)
         {
+            PlaySound(laserSound);
             nextFire = Time.time + fireRate;
             Rigidbody bullet = (Rigidbody)Instantiate(bulletPrefab, barrel.transform.position, _transform.localRotation);
             bullet.velocity = barrel.transform.up * bulletSpeed;
 
         }
 
+    }
+
+
+    public void PlaySound(AudioClip clip)
+    {
+        if (clip != null)
+        {
+            _audio.clip = clip;
+            _audio.Play();
+        }
+        else
+        {
+            Debug.LogWarning("No audio clip was found.");
+        }
     }
 }

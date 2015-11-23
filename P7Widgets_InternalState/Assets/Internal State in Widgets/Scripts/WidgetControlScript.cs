@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.Networking;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 /*
  * This script is placed on the widget gameObjects in the scene. 
@@ -20,7 +21,7 @@ public class WidgetControlScript : NetworkBehaviour {
 
 	float _smoothSpeed = 20;									//The speed at which lerping of rotation and position happens
 
-	[SyncVar] private GameObject _tool;							//The tool assigned to this widget
+	public GameObject _tool;							//The tool assigned to this widget
 
 	private GameObject _networkObject;							//The object that each client has authority over
 
@@ -30,7 +31,10 @@ public class WidgetControlScript : NetworkBehaviour {
 	bool _isOnTool = false;
 
 	public AudioClip pickUpToolSound;			
-	public AudioClip placeToolSound;
+	public AudioClip showToolSound;
+    public AudioClip hideToolSound;
+
+    public Image toolSaveFill;
 
 	private bool _readyToPickup = true;
 	private float _resetElapsedTime = 0;
@@ -38,7 +42,7 @@ public class WidgetControlScript : NetworkBehaviour {
 
 	void Awake()
 	{
-		WIDGET_TOOL_DIST_THRESHOLD = Screen.height * 0.5f;
+		WIDGET_TOOL_DIST_THRESHOLD = Screen.height;
 	}
 
 	void Start () {
@@ -59,49 +63,92 @@ public class WidgetControlScript : NetworkBehaviour {
 
 
 	void Update () {
-		//StateMachine();
-		
-		if(isServer)
-		{
-			//print("Widget is server-controlled");
-			if(Input.GetKey(KeyCode.W) && _widgetIndex == 1)
-			{
-				UpdateWidgetInfoEditor();
-			}
-			else if(Input.GetKey(KeyCode.E) && _widgetIndex == 2)
-			{
-				UpdateWidgetInfoEditor();
-			}
-			else
-				UpdateWidgetInfo();
+        //StateMachine();
+        //switch (GameStateManager.State)
+        //{
+        //    case GameState.GAME:
+        //        //print("Widget is server-controlled");
+        //        if (Input.GetKey(KeyCode.W) && _widgetIndex == 1)
+        //        {
+        //            UpdateWidgetInfoEditor();
+        //        }
+        //        else if (Input.GetKey(KeyCode.E) && _widgetIndex == 2)
+        //        {
+        //            UpdateWidgetInfoEditor();
+        //        }
+        //        else
+        //            UpdateWidgetInfo();
 
-		}
-		else 
-		{
-			//print("Widget is NOT server-controlled");
+        //        break;
+        //    case GameState.TOOLBOX:
+        //        //print("Widget is NOT server-controlled");
 
-			//Check for readiness to pick up tools
-			ToggleReadyToPickUp();
+        //        //Check for readiness to pick up tools
+        //        ToggleReadyToPickUp();
 
-			//Check position of widget on the toolbox
+        //        //Check position of widget on the toolbox
 
-			if(Input.GetKey(KeyCode.W) && _widgetIndex == 1)
-			{
-				UpdateWidgetInfoEditor();
-			}
-			else if(Input.GetKey(KeyCode.E) && _widgetIndex == 2)
-			{
-				UpdateWidgetInfoEditor();
-			}
-			else
-				ToolboxCheckPosition();
+        //        if (Input.GetKey(KeyCode.W) && _widgetIndex == 1)
+        //        {
+        //            UpdateWidgetInfoEditor();
+        //        }
+        //        else if (Input.GetKey(KeyCode.E) && _widgetIndex == 2)
+        //        {
+        //            UpdateWidgetInfoEditor();
+        //        }
+        //        else
+        //            ToolboxCheckPosition();
 
-			//Update progress bar of tool saving
-			UpdateProgressBar();
-		}
+        //        ToggleReadyToPickUp();
 
-		
-	}
+        //        //Update progress bar of tool saving
+        //        UpdateProgressBar();
+
+        //        break;
+        //}
+        if (isServer)
+        {
+            //print("Widget is server-controlled");
+            if (Input.GetKey(KeyCode.W) && _widgetIndex == 1)
+            {
+                UpdateWidgetInfoEditor();
+            }
+            else if (Input.GetKey(KeyCode.E) && _widgetIndex == 2)
+            {
+                UpdateWidgetInfoEditor();
+            }
+            else
+                UpdateWidgetInfo();
+
+        }
+        else
+        {
+            //print("Widget is NOT server-controlled");
+
+            //Check for readiness to pick up tools
+            ToggleReadyToPickUp();
+
+            //Check position of widget on the toolbox
+
+            if (Input.GetKey(KeyCode.W) && _widgetIndex == 1)
+            {
+                UpdateWidgetInfoEditor();
+            }
+            else if (Input.GetKey(KeyCode.E) && _widgetIndex == 2)
+            {
+                UpdateWidgetInfoEditor();
+            }
+            else
+                ToolboxCheckPosition();
+
+            ToggleReadyToPickUp();
+
+            //Update progress bar of tool saving
+            UpdateProgressBar();
+        }
+
+
+    }
 
 	//Not used at the moment
 	void StateMachine()
@@ -173,7 +220,9 @@ public class WidgetControlScript : NetworkBehaviour {
 			_resetElapsedTime += Time.deltaTime;
 			if(_resetElapsedTime > RESET_PICK_UP_TIME)
 			{
-				_readyToPickup = true;
+                toolSaveFill.color = Color.white;
+                _resetElapsedTime = 0;
+                _readyToPickup = true;
 			}
 		}
 	}
@@ -207,8 +256,11 @@ public class WidgetControlScript : NetworkBehaviour {
 						PlaySound(pickUpToolSound);
 						_networkObject.GetComponent<ToolAssign>().CmdAssign(_widgetIndex, ta.toolToAssign);
 						_pickUpElapsedTime = 0;
+
+                        toolSaveFill.color = Color.green;
+
 						_readyToPickup = false;
-						Invoke("ToggleReadyToPickUp", RESET_PICK_UP_TIME);
+						
 					}
 					else
 					{
@@ -225,10 +277,6 @@ public class WidgetControlScript : NetworkBehaviour {
 				ResetTimeToPickup();
 			}
 		}
-		else
-		{
-			CancelInvoke("ToggleReadyToPickUp");
-		}
 	}
 
 
@@ -236,7 +284,7 @@ public class WidgetControlScript : NetworkBehaviour {
 	void UpdateProgressBar()
 	{
 		if(_readyToPickup)
-			GameVariables.SavedToolFill.fillAmount = Mathf.Clamp01(_pickUpElapsedTime);
+            toolSaveFill.fillAmount = Mathf.Clamp01(_pickUpElapsedTime);
 	}
 
 
@@ -350,7 +398,11 @@ public class WidgetControlScript : NetworkBehaviour {
 			//Enable renderer
 			if(child.GetComponent<MeshRenderer>())
 			{
-				child.GetComponent<MeshRenderer>().enabled = true;
+                if (child.GetComponent<MeshRenderer>().enabled == false){
+                    PlaySound(showToolSound);
+                }
+
+                child.GetComponent<MeshRenderer>().enabled = true;
 			}
 
 			//Enable tool script
@@ -359,7 +411,15 @@ public class WidgetControlScript : NetworkBehaviour {
 				child.GetComponent<BoxCollider>().enabled = true;
 			}
 
-		}
+
+            //enable tool script
+            if (child.GetComponent<MeshCollider>())
+            {
+                child.GetComponent<MeshCollider>().enabled = true;
+            }
+
+
+        }
 	}
 
 
@@ -373,7 +433,12 @@ public class WidgetControlScript : NetworkBehaviour {
 				//Disable/enable renderer
 				if(child.GetComponent<MeshRenderer>())
 				{
-					child.GetComponent<MeshRenderer>().enabled = false;
+                    if (child.GetComponent<MeshRenderer>().enabled == true)
+                    {
+                        PlaySound(hideToolSound);
+                    }
+                    
+                    child.GetComponent<MeshRenderer>().enabled = false;
 				}
 
 				//Disable/enable tool script
@@ -382,7 +447,14 @@ public class WidgetControlScript : NetworkBehaviour {
 					child.GetComponent<BoxCollider>().enabled = false;
 				}
 
-			}
+                //Disable/enable tool script
+                if (child.GetComponent<MeshCollider>())
+                {
+                    child.GetComponent<MeshCollider>().enabled = false;
+                }
+
+            }
+           
 		}
 	}
 

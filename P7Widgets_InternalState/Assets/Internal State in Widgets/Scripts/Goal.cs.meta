@@ -1,10 +1,12 @@
 fileFormatVersion: 2
 guid: 7d076f2b541a562419cac2eccccd9d96
-timeCreated: 1443436839
+timeCreated: 1448133498
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - goalOpenClip: {fileID: 7400000, guid: 2a7b6355f8e1e4b4b96a06b1c40d0a1c, type: 2}
+  - goalCloseClip: {fileID: 7400000, guid: dca361e14fa2e0e45a3b3a13719e2ee5, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
