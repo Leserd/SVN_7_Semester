@@ -19,6 +19,8 @@ public class GameManagerScript : NetworkBehaviour {
     public Button toolboxButton;
     public Image levelStar;
     public Image levelStarMenu;
+    public Image levelStarComplete;
+    public Image levelStarFailed;
 
     public int[] robotsToSpawn;
 	public int[] scoreToWin;
@@ -115,6 +117,8 @@ public class GameManagerScript : NetworkBehaviour {
 		//if(remainingText == null) remainingText = GameObject.Find("RemainingRobots").GetComponent<Text>();
 		//if(levelText == null) levelText = GameObject.Find("Level").GetComponent<Text>();
 		if(levelStarMenu == null) levelStarMenu = GameObject.Find("LevelStarMenu").GetComponent<Image>();
+        if (levelStarComplete == null) levelStarComplete = GameObject.Find("LevelStarComplete").GetComponent<Image>();
+        if (levelStarFailed == null) levelStarFailed = GameObject.Find("LevelStarFailed").GetComponent<Image>();
         if (toolboxButton == null) toolboxButton = GameObject.Find("ToolboxButtonOpener").GetComponent<Button>();
         if (levelStar == null) levelStar = GameObject.Find("LevelStar").GetComponent<Image>();
 
@@ -327,6 +331,12 @@ public class GameManagerScript : NetworkBehaviour {
         //Set level star sprite for the start game panel
         levelStarMenu.sprite = levelStarSprite;
 
+        //Set level star sprite for the completed game panel
+        levelStarComplete.sprite = levelStarSprite;
+
+        //Set level star sprite for the failed game panel
+        levelStarFailed.sprite = levelStarSprite;
+
         //Set level star for top bar
         levelStar.sprite = levelStarSprite;
 
@@ -367,7 +377,7 @@ public class GameManagerScript : NetworkBehaviour {
 	{
 		if(CurrentLevel < levelLocations.Length)
 		{
-			ResetWidgetTools();
+			//ResetWidgetTools();
             //DebugConsole.Log("Reset Tools, level:  " + CurrentLevel);
 			levelCompletePanel.SetActive(true);
             PlaySound(levelCompleteSound);

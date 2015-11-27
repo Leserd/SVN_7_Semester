@@ -1,51 +1,223 @@
-Initialize engine version: 5.2.2f1 (3757309da7e7)
+Mono path[0] = 'C:/Users/Christoffer/Documents/GitHub/SVN_7_Semester/P7Widgets_InternalState/BuildPC_Data/Managed'
+Mono path[1] = 'C:/Users/Christoffer/Documents/GitHub/SVN_7_Semester/P7Widgets_InternalState/BuildPC_Data/Mono'
+Mono config path = 'C:/Users/Christoffer/Documents/GitHub/SVN_7_Semester/P7Widgets_InternalState/BuildPC_Data/Mono/etc'
+PlayerConnection initialized from C:/Users/Christoffer/Documents/GitHub/SVN_7_Semester/P7Widgets_InternalState/BuildPC_Data (debug = 0)
+PlayerConnection initialized network socket : 0.0.0.0 55397
+Multi-casting "[IP] 172.24.149.168 [Port] 55397 [Flags] 2 [Guid] 2195031475 [EditorId] 2360425841 [Version] 1048832 [Id] WindowsPlayer(Bech) [Debug] 0" to [225.0.0.222:54997]...
+PlayerConnection already initialized - listening to [172.24.149.168:55397]
+Initialize engine version: 5.2.3f1 (f3d16a1fa2dd)
 GfxDevice: creating device client; threaded=1
 Direct3D:
     Version:  Direct3D 11.0 [level 11.0]
-    Renderer: AMD Radeon HD 7600M Series (ID=0x6840)
-    Vendor:   ATI
-    VRAM:     2028 MB
+    Renderer: Intel(R) HD Graphics 3000 (ID=0x116)
+    Vendor:   Intel
+    VRAM:     1072 MB
 Begin MonoManager ReloadAssembly
-Platform assembly: C:\Users\Andreas\Documents\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading C:\Users\Andreas\Documents\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: C:\Users\Andreas\Documents\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading C:\Users\Andreas\Documents\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: C:\Users\Andreas\Documents\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading C:\Users\Andreas\Documents\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-Platform assembly: C:\Users\Andreas\Documents\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
-Loading C:\Users\Andreas\Documents\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-Platform assembly: C:\Users\Andreas\Documents\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\System.Core.dll (this message is harmless)
-- Completed reload, in  0.050 seconds
+Platform assembly: C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\System.Core.dll (this message is harmless)
+- Completed reload, in  0.345 seconds
 desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-Platform assembly: C:\Users\Andreas\Documents\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\System.dll (this message is harmless)
-Setting up 2 worker threads for Enlighten.
-  Thread -> id: a94 -> priority: 1 
-  Thread -> id: 2d4 -> priority: 1 
+Platform assembly: C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\BuildPC_Data\Managed\System.dll (this message is harmless)
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 1e68 -> priority: 1 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
 Shader 'Custom/OutlineShaderBumped': fallback shader 'Outlined/Silhouetted Diffuse' not found
 WARNING: Shader Unsupported: 'Custom/OutlineShaderBumped' - Pass 'OUTLINE' has no vertex shader
-UnloadTime: 4.870008 ms
+UnloadTime: 11.223626 ms
 GAME SCENE LOADED
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:Log(Object)
+ipNetworking:OnLevelWasLoaded(Int32) (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\Networking\ipNetworking.cs:59)
  
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
-
-2
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+(Filename: C:/Users/Christoffer/Documents/GitHub/SVN_7_Semester/P7Widgets_InternalState/Assets/Internal State in Widgets/Scripts/Networking/ipNetworking.cs Line: 59)
 
 Parent of RectTransform is being set with parent property. Consider using the SetParent method instead, with the worldPositionStays argument set to false. This will retain local orientation and scale rather than world orientation and scale, which can prevent common UI scaling issues.
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:LogWarning(Object, Object)
+UnityEngine.Transform:set_parent(Transform) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineTransformBindings.gen.cs:119)
+GameManagerScript:SetupRobotGUI() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\GameManagerScript.cs:567)
+GameManagerScript:Start() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\GameManagerScript.cs:140)
  
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineTransformBindings.gen.cs Line: 119)
 
 Parent of RectTransform is being set with parent property. Consider using the SetParent method instead, with the worldPositionStays argument set to false. This will retain local orientation and scale rather than world orientation and scale, which can prevent common UI scaling issues.
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:LogWarning(Object, Object)
+UnityEngine.Transform:set_parent(Transform) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineTransformBindings.gen.cs:119)
+GameManagerScript:SetupRobotGUI() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\GameManagerScript.cs:567)
+GameManagerScript:Start() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\GameManagerScript.cs:140)
  
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineTransformBindings.gen.cs Line: 119)
 
+System memory in use before: 28.4 MB.
+System memory in use after: 28.2 MB.
 
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 1273.
-Total: 0.733133 ms (FindLiveObjects: 0.056669 ms CreateObjectMapping: 0.024541 ms MarkObjects: 0.631842 ms  DeleteObjects: 0.019633 ms)
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 1294.
+Total: 1.499344 ms (FindLiveObjects: 0.093300 ms CreateObjectMapping: 0.061112 ms MarkObjects: 1.186320 ms  DeleteObjects: 0.157678 ms)
 
-Log: connection {1} has been disconnected by timeout; address {::ffff:127.0.0.1:57610}
+tool null
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:Log(Object)
+UnityEngine.MonoBehaviour:print(Object) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineMonoBehaviourBindings.gen.cs:108)
+WidgetControlScript:CheckDistanceToButton() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\WidgetControlScript.cs:314)
+WidgetControlScript:UpdateWidgetInfoEditor() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\WidgetControlScript.cs:245)
+WidgetControlScript:StateMachine() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\WidgetControlScript.cs:144)
+WidgetControlScript:Update() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\WidgetControlScript.cs:70)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineMonoBehaviourBindings.gen.cs Line: 108)
+
+PickUpTool: 1,0,1
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:Log(Object)
+UnityEngine.MonoBehaviour:print(Object) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineMonoBehaviourBindings.gen.cs:108)
+ToolAssign:PickUpTool(Int32, Int32, Int32) (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\Networking\ToolAssign.cs:170)
+WidgetControlScript:CheckDistanceToButton() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\WidgetControlScript.cs:315)
+WidgetControlScript:UpdateWidgetInfoEditor() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\WidgetControlScript.cs:245)
+WidgetControlScript:StateMachine() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\WidgetControlScript.cs:144)
+WidgetControlScript:Update() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\WidgetControlScript.cs:70)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineMonoBehaviourBindings.gen.cs Line: 108)
+
+Robot reached goal!
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:Log(Object)
+UnityEngine.MonoBehaviour:print(Object) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineMonoBehaviourBindings.gen.cs:108)
+Goal:OnTriggerEnter(Collider) (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\Goal.cs:36)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineMonoBehaviourBindings.gen.cs Line: 108)
+
+No audio clip was found.
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:LogWarning(Object)
+GameManagerScript:PlaySound(AudioClip) (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\GameManagerScript.cs:512)
+GameManagerScript:RobotScored(Transform) (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\GameManagerScript.cs:252)
+Goal:OnTriggerEnter(Collider) (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\Goal.cs:37)
+ 
+(Filename: C:/Users/Christoffer/Documents/GitHub/SVN_7_Semester/P7Widgets_InternalState/Assets/Internal State in Widgets/Scripts/GameManagerScript.cs Line: 512)
+
+Robot reached goal!
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:Log(Object)
+UnityEngine.MonoBehaviour:print(Object) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineMonoBehaviourBindings.gen.cs:108)
+Goal:OnTriggerEnter(Collider) (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\Goal.cs:36)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineMonoBehaviourBindings.gen.cs Line: 108)
+
+No audio clip was found.
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:LogWarning(Object)
+GameManagerScript:PlaySound(AudioClip) (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\GameManagerScript.cs:512)
+GameManagerScript:RobotScored(Transform) (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\GameManagerScript.cs:252)
+Goal:OnTriggerEnter(Collider) (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\Goal.cs:37)
+ 
+(Filename: C:/Users/Christoffer/Documents/GitHub/SVN_7_Semester/P7Widgets_InternalState/Assets/Internal State in Widgets/Scripts/GameManagerScript.cs Line: 512)
+
+Parent of RectTransform is being set with parent property. Consider using the SetParent method instead, with the worldPositionStays argument set to false. This will retain local orientation and scale rather than world orientation and scale, which can prevent common UI scaling issues.
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:LogWarning(Object, Object)
+UnityEngine.Transform:set_parent(Transform) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineTransformBindings.gen.cs:119)
+GameManagerScript:SetupRobotGUI() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\GameManagerScript.cs:567)
+GameManagerScript:PrepareNewLevel() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\GameManagerScript.cs:361)
+<MoveToNextLocation>c__Iterator5:MoveNext() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\Goal.cs:110)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineTransformBindings.gen.cs Line: 119)
+
+Parent of RectTransform is being set with parent property. Consider using the SetParent method instead, with the worldPositionStays argument set to false. This will retain local orientation and scale rather than world orientation and scale, which can prevent common UI scaling issues.
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:LogWarning(Object, Object)
+UnityEngine.Transform:set_parent(Transform) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineTransformBindings.gen.cs:119)
+GameManagerScript:SetupRobotGUI() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\GameManagerScript.cs:567)
+GameManagerScript:PrepareNewLevel() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\GameManagerScript.cs:361)
+<MoveToNextLocation>c__Iterator5:MoveNext() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\Goal.cs:110)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineTransformBindings.gen.cs Line: 119)
+
+Parent of RectTransform is being set with parent property. Consider using the SetParent method instead, with the worldPositionStays argument set to false. This will retain local orientation and scale rather than world orientation and scale, which can prevent common UI scaling issues.
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:LogWarning(Object, Object)
+UnityEngine.Transform:set_parent(Transform) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineTransformBindings.gen.cs:119)
+GameManagerScript:SetupRobotGUI() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\GameManagerScript.cs:567)
+GameManagerScript:PrepareNewLevel() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\GameManagerScript.cs:361)
+<MoveToNextLocation>c__Iterator5:MoveNext() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\Goal.cs:110)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineTransformBindings.gen.cs Line: 119)
+
+Parent of RectTransform is being set with parent property. Consider using the SetParent method instead, with the worldPositionStays argument set to false. This will retain local orientation and scale rather than world orientation and scale, which can prevent common UI scaling issues.
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:LogWarning(Object, Object)
+UnityEngine.Transform:set_parent(Transform) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineTransformBindings.gen.cs:119)
+GameManagerScript:SetupRobotGUI() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\GameManagerScript.cs:567)
+GameManagerScript:RetryLevel(GameObject) (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\GameManagerScript.cs:426)
+UnityEngine.Events.InvokableCall`1:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:180)
+UnityEngine.Events.CachedInvokableCall`1:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:298)
+UnityEngine.Events.InvokableCallList:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:626)
+UnityEngine.Events.UnityEventBase:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:766)
+UnityEngine.Events.UnityEvent:Invoke() (at C:\buildslave\unity\build\Runtime\Export\UnityEvent_0.cs:54)
+UnityEngine.UI.Button:Press() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:35)
+UnityEngine.UI.Button:OnPointerClick(PointerEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:44)
+UnityEngine.EventSystems.ExecuteEvents:Execute(IPointerClickHandler, BaseEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:52)
+UnityEngine.EventSystems.ExecuteEvents:Execute(GameObject, BaseEventData, EventFunction`1) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:269)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMousePress(MouseButtonEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:378)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent(Int32) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:277)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:265)
+UnityEngine.EventSystems.StandaloneInputModule:Process() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:179)
+UnityEngine.EventSystems.EventSystem:Update() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\EventSystem.cs:277)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineTransformBindings.gen.cs Line: 119)
+
+Parent of RectTransform is being set with parent property. Consider using the SetParent method instead, with the worldPositionStays argument set to false. This will retain local orientation and scale rather than world orientation and scale, which can prevent common UI scaling issues.
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:LogWarning(Object, Object)
+UnityEngine.Transform:set_parent(Transform) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineTransformBindings.gen.cs:119)
+GameManagerScript:SetupRobotGUI() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\GameManagerScript.cs:567)
+GameManagerScript:RetryLevel(GameObject) (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\GameManagerScript.cs:426)
+UnityEngine.Events.InvokableCall`1:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:180)
+UnityEngine.Events.CachedInvokableCall`1:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:298)
+UnityEngine.Events.InvokableCallList:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:626)
+UnityEngine.Events.UnityEventBase:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:766)
+UnityEngine.Events.UnityEvent:Invoke() (at C:\buildslave\unity\build\Runtime\Export\UnityEvent_0.cs:54)
+UnityEngine.UI.Button:Press() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:35)
+UnityEngine.UI.Button:OnPointerClick(PointerEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:44)
+UnityEngine.EventSystems.ExecuteEvents:Execute(IPointerClickHandler, BaseEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:52)
+UnityEngine.EventSystems.ExecuteEvents:Execute(GameObject, BaseEventData, EventFunction`1) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:269)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMousePress(MouseButtonEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:378)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent(Int32) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:277)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:265)
+UnityEngine.EventSystems.StandaloneInputModule:Process() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:179)
+UnityEngine.EventSystems.EventSystem:Update() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\EventSystem.cs:277)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineTransformBindings.gen.cs Line: 119)
+
+Parent of RectTransform is being set with parent property. Consider using the SetParent method instead, with the worldPositionStays argument set to false. This will retain local orientation and scale rather than world orientation and scale, which can prevent common UI scaling issues.
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:LogWarning(Object, Object)
+UnityEngine.Transform:set_parent(Transform) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineTransformBindings.gen.cs:119)
+GameManagerScript:SetupRobotGUI() (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\GameManagerScript.cs:567)
+GameManagerScript:RetryLevel(GameObject) (at C:\Users\Christoffer\Documents\GitHub\SVN_7_Semester\P7Widgets_InternalState\Assets\Internal State in Widgets\Scripts\GameManagerScript.cs:426)
+UnityEngine.Events.InvokableCall`1:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:180)
+UnityEngine.Events.CachedInvokableCall`1:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:298)
+UnityEngine.Events.InvokableCallList:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:626)
+UnityEngine.Events.UnityEventBase:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:766)
+UnityEngine.Events.UnityEvent:Invoke() (at C:\buildslave\unity\build\Runtime\Export\UnityEvent_0.cs:54)
+UnityEngine.UI.Button:Press() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:35)
+UnityEngine.UI.Button:OnPointerClick(PointerEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:44)
+UnityEngine.EventSystems.ExecuteEvents:Execute(IPointerClickHandler, BaseEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:52)
+UnityEngine.EventSystems.ExecuteEvents:Execute(GameObject, BaseEventData, EventFunction`1) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:269)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMousePress(MouseButtonEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:378)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent(Int32) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:277)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:265)
+UnityEngine.EventSystems.StandaloneInputModule:Process() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:179)
+UnityEngine.EventSystems.EventSystem:Update() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\EventSystem.cs:277)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineTransformBindings.gen.cs Line: 119)
+

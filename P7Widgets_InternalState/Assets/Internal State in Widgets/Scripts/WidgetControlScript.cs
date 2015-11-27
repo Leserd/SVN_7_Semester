@@ -157,7 +157,43 @@ public class WidgetControlScript : NetworkBehaviour {
         }
     }
 
-	void UpdateWidgetInfoToolbox()
+
+    // Updates the position, orientation and button checks of the widget
+    void UpdateWidgetInfo()
+    {
+        if (_widgetAlgorithm.widgets.Length == 0)
+        {
+            Invoke("HideTool", _toolFadeTime);              //Hide tool if no widgets are detected
+        }
+
+        foreach (Widget w in _widgetAlgorithm.widgets)
+        {
+            if (w.flags.Contains(_widgetIndex))                 //If this widget IS detected...
+            {
+                // Update position and orientation
+                MoveWidget(w);
+
+                //Make visible
+                if (Application.isEditor == false)
+                {
+                    CancelInvoke("HideTool");                   //Cancel any existing invokes for hiding this tool
+                }
+
+                ShowTool();
+
+                // Button check for flag id 3
+                _buttonIsHeld = CheckButton(w, 3);
+                return;
+            }
+            else
+            {
+                //Make invisible
+                Invoke("HideTool", _toolFadeTime);              //Hide tool if no widgets are detected
+            }
+        }
+    }
+
+    void UpdateWidgetInfoToolbox()
 	{
 		//print(gameObject.name + ": " + Vector2.Distance(Camera.main.WorldToScreenPoint(transform.position), 
 			//GameObject.Find("ToolboxPanel").GetComponent<Toolbox_Move>().CurrentImage.rectTransform.position));
@@ -185,7 +221,34 @@ public class WidgetControlScript : NetworkBehaviour {
 		}
 	}
 
-	void ResetTimeToPickup()
+
+
+    // Updates the position, orientation and button checks of the widget
+    void UpdateWidgetInfoEditor()
+    {
+        //Position
+        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward;
+        pos = new Vector3(pos.x, pos.y, 0);
+
+        if (!hidden)
+        {
+            transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * _smoothSpeed);
+        }
+        else
+            transform.position = pos;
+
+        if (GameStateManager.State == GameState.GAME)
+            ShowTool();
+
+        if (GameStateManager.State == GameState.TOOLBOX)
+        {
+            CheckDistanceToButton();
+        }
+    }
+
+
+
+    void ResetTimeToPickup()
 	{
 		if(!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.E))
 		{
@@ -298,66 +361,6 @@ public class WidgetControlScript : NetworkBehaviour {
 			{
 				_networkObject = netObjects[i].gameObject;
 			}
-		}
-	}
-
-
-	// Updates the position, orientation and button checks of the widget
-	void UpdateWidgetInfo()
-	{
-		if(_widgetAlgorithm.widgets.Length == 0)
-		{
-			Invoke("HideTool", _toolFadeTime);				//Hide tool if no widgets are detected
-		}
-
-		foreach(Widget w in _widgetAlgorithm.widgets)
-		{
-			if(w.flags.Contains(_widgetIndex))					//If this widget IS detected...
-			{
-				// Update position and orientation
-				MoveWidget(w);
-
-				//Make visible
-				if(Application.isEditor == false)
-				{
-					CancelInvoke("HideTool");					//Cancel any existing invokes for hiding this tool
-				}
-					
-				ShowTool();
-
-				// Button check for flag id 3
-				_buttonIsHeld = CheckButton(w, 3);
-				return;
-			} else
-			{			
-				//Make invisible
-				Invoke("HideTool", _toolFadeTime);				//Hide tool if no widgets are detected
-			}
-		}
-	}
-
-
-
-		// Updates the position, orientation and button checks of the widget
-	void UpdateWidgetInfoEditor()
-	{
-		//Position
-		Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward;
-		pos = new Vector3(pos.x, pos.y, 0);
-
-        if (!hidden)
-        {
-            transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * _smoothSpeed);
-        }
-        else
-            transform.position = pos;
-
-        if (GameStateManager.State == GameState.GAME)
-		    ShowTool();
-
-		if(GameStateManager.State == GameState.TOOLBOX)
-		{
-			CheckDistanceToButton();
 		}
 	}
 
