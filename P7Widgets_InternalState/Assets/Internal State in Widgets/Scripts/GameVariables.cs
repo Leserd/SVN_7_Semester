@@ -14,6 +14,8 @@ public static class GameVariables {
 	private static Goal _currentGoal;
 	private static Transform _currentSpawn;
 	private static Image _savedToolFill;
+    private static Toolbox_Move _toolboxPanel;
+
 
 	public static Button LevelDisconnect{
 		get { return _levelDisconnect; }
@@ -83,4 +85,12 @@ public static class GameVariables {
 		get { return _savedToolFill; }
 		set { _savedToolFill = value; }
 	}
+
+
+
+    public static Toolbox_Move ToolboxPanel
+    {
+        get { return _toolboxPanel; }
+        set { _toolboxPanel = value; }
+    }
 }

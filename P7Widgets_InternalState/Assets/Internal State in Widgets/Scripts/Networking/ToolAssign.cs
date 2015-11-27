@@ -1,18 +1,23 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using System.Linq;
 
 public class ToolAssign : NetworkBehaviour {
 
 	public GameObject[] tools;
-	public Toolbox_ToolAssign ta;
-
+    private List<Toolbox_ToolAssign> toolboxList;
+    private List<int> savedTools;
 
 	void Start()
 	{
 
 		DontDestroyOnLoad(gameObject);
+
+        savedTools = new List<int>();
+
+        CreateToolboxList();
 
 		if(!isServer && isLocalPlayer)
 		{
@@ -74,39 +79,58 @@ public class ToolAssign : NetworkBehaviour {
 
 
 
+    void CreateToolboxList()
+    {
+        toolboxList = new List<Toolbox_ToolAssign>();
+
+        Toolbox_ToolAssign[] tas = FindObjectsOfType<Toolbox_ToolAssign>();
+        foreach(Toolbox_ToolAssign ta in tas)
+        {
+            toolboxList.Add(ta);
+        }
+
+        toolboxList = toolboxList.OrderBy(x => x.GetComponent<Toolbox_ToolAssign>().toolButtonID).ToList();
+    }
+
+
+
 	public void Assign(int widgetID, int toolID)
 	{
-		print("Assign called: "+ widgetID + ", " + toolID);
+        //print("CmdAssign called: " + widgetID + ", " + toolID);
 
-		//Save widget as temporary variable
-		WidgetControlScript widget = GameVariables.Players[widgetID - 1];
+        //Save widget as temporary variable
+        WidgetControlScript widget = GameVariables.Players[widgetID - 1];
 
-		print("Widget number: " + widgetID + " exists: " + widget.name);
+        //Find widget tool mount
+        Transform mount = widget.ToolMount;
 
-		//Find widget tool mount
-		Transform mount = widget.ToolMount;
+        //Remove current tool from widget
+        widget.RemoveTool();
 
-		//Instantiate tool in tool mount pos
-		GameObject tool = Instantiate(tools[toolID - 1], mount.position, Quaternion.identity) as GameObject;
-		
-		//Assign tool mount as tool parent
-		tool.transform.parent = mount;
+        //For safety measures, destroy all children of widget
+        Transform[] children = mount.transform.GetComponentsInChildren<Transform>();
+        foreach (Transform child in children)
+        {
+            if (child != mount.transform)
+                Destroy(child.gameObject);
+        }
 
-		//Remove current tool from widget
-		widget.RemoveTool();
+        //Instantiate tool in tool mount pos
+        GameObject tool = Instantiate(tools[toolID - 1], mount.position, widget.transform.rotation) as GameObject;
 
-		//Assign tool to widget
-		widget.Tool = tool;
+        //Assign tool mount as tool parent
+        tool.transform.parent = mount;
 
-		NetworkServer.Spawn(tool);
+        //Assign tool to widget
+        widget.Tool = tool;
 
-		print("IsServer: " + widget.isServer + ", widgetID: " + widgetID + ", toolID: " + toolID);
-	}
+        //NetworkServer.Spawn(tool);
+    }
 
 	[Command]
 	public void CmdAssign(int widgetID, int toolID)
 	{
-		print("CmdAssign called: " + widgetID + ", " + toolID);
+		//print("CmdAssign called: " + widgetID + ", " + toolID);
 
 		//Save widget as temporary variable
 		WidgetControlScript widget = GameVariables.Players[widgetID - 1];
@@ -136,4 +160,58 @@ public class ToolAssign : NetworkBehaviour {
 
 		NetworkServer.Spawn(tool);
 	}  
+
+
+
+
+    public void PickUpTool(int widgetID, int oldToolID, int newToolID)
+    {
+        //savedTools.Add(newToolID);
+        print("PickUpTool: " + widgetID + "," + oldToolID + "," + newToolID);
+        if(oldToolID != 0)
+        {
+            EnableTool(oldToolID);
+        }
+
+        DisableTool(newToolID);
+
+        //Call commmand to server
+        if(!isServer)
+            CmdAssign(widgetID, newToolID);
+
+        Assign(widgetID, newToolID);
+
+    }
+
+
+
+    public void EnableTool(int toolID)
+    {
+        Image img = toolboxList[toolID - 1].transform.GetChild(0).GetComponent<Image>();
+        print(img.name);
+
+        if (savedTools.Contains(toolID))
+            savedTools.Remove(toolID);
+
+        img.enabled = true;
+    }
+
+
+
+    public void DisableTool(int toolID)
+    {
+        Image img = toolboxList[toolID - 1].transform.GetChild(0).GetComponent<Image>();
+
+        savedTools.Add(toolID);
+
+        img.enabled = false;
+    }
+
+
+
+    public List<int> SavedTools
+    {
+        get { return savedTools; }
+        set { savedTools = value; }
+    }
 }  

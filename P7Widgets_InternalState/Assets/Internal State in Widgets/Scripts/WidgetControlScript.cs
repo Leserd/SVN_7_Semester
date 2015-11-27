@@ -21,7 +21,8 @@ public class WidgetControlScript : NetworkBehaviour {
 
 	float _smoothSpeed = 20;									//The speed at which lerping of rotation and position happens
 
-	public GameObject _tool;							//The tool assigned to this widget
+	public GameObject _tool;							        //The tool assigned to this widget
+    public int curToolID;                                       //The id of the assigned tool
 
 	private GameObject _networkObject;							//The object that each client has authority over
 
@@ -29,6 +30,8 @@ public class WidgetControlScript : NetworkBehaviour {
 	float PICK_UP_TIME = 1;										//The time the widget has to be held on the tool to pick it up
 	float _pickUpElapsedTime = 0;								//The current amount of time the widget has been on the tool
 	bool _isOnTool = false;
+
+    private bool hidden = true;                                 //The visible state of the widget's tool
 
 	public AudioClip pickUpToolSound;			
 	public AudioClip showToolSound;
@@ -62,50 +65,15 @@ public class WidgetControlScript : NetworkBehaviour {
 	
 
 
-	void Update () {
-        //StateMachine();
-        //switch (GameStateManager.State)
-        //{
-        //    case GameState.GAME:
-        //        //print("Widget is server-controlled");
-        //        if (Input.GetKey(KeyCode.W) && _widgetIndex == 1)
-        //        {
-        //            UpdateWidgetInfoEditor();
-        //        }
-        //        else if (Input.GetKey(KeyCode.E) && _widgetIndex == 2)
-        //        {
-        //            UpdateWidgetInfoEditor();
-        //        }
-        //        else
-        //            UpdateWidgetInfo();
+	void Update ()
+    {
+        StateMachine();
+    }
 
-        //        break;
-        //    case GameState.TOOLBOX:
-        //        //print("Widget is NOT server-controlled");
 
-        //        //Check for readiness to pick up tools
-        //        ToggleReadyToPickUp();
 
-        //        //Check position of widget on the toolbox
-
-        //        if (Input.GetKey(KeyCode.W) && _widgetIndex == 1)
-        //        {
-        //            UpdateWidgetInfoEditor();
-        //        }
-        //        else if (Input.GetKey(KeyCode.E) && _widgetIndex == 2)
-        //        {
-        //            UpdateWidgetInfoEditor();
-        //        }
-        //        else
-        //            ToolboxCheckPosition();
-
-        //        ToggleReadyToPickUp();
-
-        //        //Update progress bar of tool saving
-        //        UpdateProgressBar();
-
-        //        break;
-        //}
+    void OldProcedure()
+    {
         if (isServer)
         {
             //print("Widget is server-controlled");
@@ -139,41 +107,57 @@ public class WidgetControlScript : NetworkBehaviour {
                 UpdateWidgetInfoEditor();
             }
             else
-                ToolboxCheckPosition();
-
-            ToggleReadyToPickUp();
+                UpdateWidgetInfoToolbox();
 
             //Update progress bar of tool saving
             UpdateProgressBar();
         }
-
-
     }
+
+
 
 	//Not used at the moment
 	void StateMachine()
 	{
-		switch(GameStateManager.State)
-		{
-		case GameState.SETUP:
-			break;
-		case GameState.MENU:
-			break;
+        switch (GameStateManager.State)
+        {
+            case GameState.GAME:
+                if (Input.GetKey(KeyCode.W) && _widgetIndex == 1)
+                {
+                    UpdateWidgetInfoEditor();
+                }
+                else if (Input.GetKey(KeyCode.E) && _widgetIndex == 2)
+                {
+                    UpdateWidgetInfoEditor();
+                }
+                else
+                    UpdateWidgetInfo();
 
-		case GameState.GAME:
+                break;
+            case GameState.TOOLBOX:
+                //Check for readiness to pick up tools
+                ToggleReadyToPickUp();
 
-			UpdateWidgetInfo();
-			break;
-		case GameState.TOOLBOX:
+                //Check position of widget on the toolbox
+                if (Input.GetKey(KeyCode.W) && _widgetIndex == 1)
+                {
+                    UpdateWidgetInfoEditor();
+                }
+                else if (Input.GetKey(KeyCode.E) && _widgetIndex == 2)
+                {
+                    UpdateWidgetInfoEditor();
+                }
+                else
+                    UpdateWidgetInfoToolbox();
 
-			ToolboxCheckPosition();
-			break;
-		default:
-			break;
-		}
-	}
+                //Update progress bar of tool saving
+                UpdateProgressBar();
 
-	void ToolboxCheckPosition()
+                break;
+        }
+    }
+
+	void UpdateWidgetInfoToolbox()
 	{
 		//print(gameObject.name + ": " + Vector2.Distance(Camera.main.WorldToScreenPoint(transform.position), 
 			//GameObject.Find("ToolboxPanel").GetComponent<Toolbox_Move>().CurrentImage.rectTransform.position));
@@ -233,49 +217,64 @@ public class WidgetControlScript : NetworkBehaviour {
 	{
 		if(_readyToPickup)
 		{
-			//If widget is within distance to pick up a tool
-			if(Vector2.Distance(Camera.main.WorldToScreenPoint(transform.position),
-			GameObject.Find("ToolboxPanel").GetComponent<Toolbox_Move>().CurrentImage.rectTransform.position) < WIDGET_TOOL_DIST_THRESHOLD)
-			{
-				_isOnTool = true;
-				_pickUpElapsedTime += Time.deltaTime;	//time counts up
-				//DebugConsole.Log("Picking up " + _isOnTool + ", " + _pickUpElapsedTime);
-				//TODO: Start picking-up effect on image
-				//UpdateProgressBar();
+			//if currentImage is available (not saved to tool already)
+            if(_networkObject.GetComponent<ToolAssign>().SavedTools.Contains(GameVariables.ToolboxPanel.CurrentImage.GetComponent<Toolbox_ToolAssign>().toolButtonID) != true)
+            {
+                //If widget is within distance to pick up a tool
+                if (Vector2.Distance(Camera.main.WorldToScreenPoint(transform.position),
+                GameVariables.ToolboxPanel.CurrentImage.rectTransform.position) < WIDGET_TOOL_DIST_THRESHOLD)
+                {
+                    _isOnTool = true;
+                    _pickUpElapsedTime += Time.deltaTime;   //time counts up
+                   //TODO: Start picking-up effect on image
 
-				if(_pickUpElapsedTime >= PICK_UP_TIME)	//If the widget has been on the tool long enough
-				{
-					if(_networkObject != null)
-					{
-						//DebugConsole.Log("Tool has been picked up");
-						Toolbox_ToolAssign ta = GameObject.Find("ToolboxPanel").GetComponent<Toolbox_Move>().CurrentImage.GetComponent<Toolbox_ToolAssign>();
 
-						if(ta == null)
-							Debug.LogError("Couldn't find toolbox_toolassign");
+                    if (_pickUpElapsedTime >= PICK_UP_TIME) //If the widget has been on the tool long enough
+                    {
+                        if (_networkObject != null)
+                        {
+                            //DebugConsole.Log("Tool has been picked up");
+                            Toolbox_ToolAssign ta = GameObject.Find("ToolboxPanel").GetComponent<Toolbox_Move>().CurrentImage.GetComponent<Toolbox_ToolAssign>();
 
-						PlaySound(pickUpToolSound);
-						_networkObject.GetComponent<ToolAssign>().CmdAssign(_widgetIndex, ta.toolToAssign);
-						_pickUpElapsedTime = 0;
+                            if (ta == null)
+                                Debug.LogError("Couldn't find toolbox_toolassign");
 
-                        toolSaveFill.color = Color.green;
+                            PlaySound(pickUpToolSound);
 
-						_readyToPickup = false;
-						
-					}
-					else
-					{
-						//print("No network object was found!");
-						//DebugConsole.Log("No network object was found!");
-					}
-				}
+                            if(_tool != null)
+                            {
+                                print("tool not null");
+                                _networkObject.GetComponent<ToolAssign>().PickUpTool(_widgetIndex, _tool.GetComponent<ToolID>().ID, ta.toolToAssign);
+                            }
+                            else
+                            {
+                                print("tool null");
+                                _networkObject.GetComponent<ToolAssign>().PickUpTool(_widgetIndex, 0, ta.toolToAssign);
+                            }
+                            //_networkObject.GetComponent<ToolAssign>().CmdAssign(_widgetIndex, ta.toolToAssign);
+                            _pickUpElapsedTime = 0;
 
-			}
-			//If widget is NOT within distance to pick up a tool
-			else
-			{
-				//UpdateProgressBar();
-				ResetTimeToPickup();
-			}
+                            toolSaveFill.color = Color.green;
+
+                            _readyToPickup = false;
+
+                        }
+                        else
+                        {
+                            //print("No network object was found!");
+                            //DebugConsole.Log("No network object was found!");
+                        }
+                    }
+                }
+
+                //If widget is NOT within distance to pick up a tool
+                else
+                {
+                    //UpdateProgressBar();
+                    ResetTimeToPickup();
+                }
+            }
+			
 		}
 	}
 
@@ -345,11 +344,18 @@ public class WidgetControlScript : NetworkBehaviour {
 		//Position
 		Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward;
 		pos = new Vector3(pos.x, pos.y, 0);
-		transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * _smoothSpeed);
 
-		ShowTool();
+        if (!hidden)
+        {
+            transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * _smoothSpeed);
+        }
+        else
+            transform.position = pos;
 
-		if(!isServer)
+        if (GameStateManager.State == GameState.GAME)
+		    ShowTool();
+
+		if(GameStateManager.State == GameState.TOOLBOX)
 		{
 			CheckDistanceToButton();
 		}
@@ -362,10 +368,16 @@ public class WidgetControlScript : NetworkBehaviour {
 		//Position
 		Vector3 pos = Camera.main.ScreenToWorldPoint(w.position) + Vector3.forward;
 		pos = new Vector3(pos.x, pos.y, 0);
-		transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * _smoothSpeed);
 
-		//Rotation
-		float angle = Vector3.Angle(Vector3.down, w.orientation) * Mathf.Sign(w.orientation.x);
+        if (!hidden)
+        {
+            transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * _smoothSpeed);
+        }
+        else
+            transform.position = pos;
+
+        //Rotation
+        float angle = Vector3.Angle(Vector3.down, w.orientation) * Mathf.Sign(w.orientation.x);
 		//transform.eulerAngles = Vector3.forward * angle;
 		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(Vector3.forward * angle), Time.deltaTime * _smoothSpeed);
 
@@ -392,13 +404,17 @@ public class WidgetControlScript : NetworkBehaviour {
 
 	void ShowTool()
 	{
-		foreach(Transform child in _toolMount)
+        if (hidden != false)
+            hidden = false;
+
+        foreach (Transform child in _toolMount)
 		{
 
 			//Enable renderer
 			if(child.GetComponent<MeshRenderer>())
 			{
                 if (child.GetComponent<MeshRenderer>().enabled == false){
+
                     PlaySound(showToolSound);
                 }
 
@@ -426,7 +442,10 @@ public class WidgetControlScript : NetworkBehaviour {
 
 	void HideTool()
 	{
-		if(Application.isEditor == false)
+        if (hidden != true)
+            hidden = true;
+
+        if (Application.isEditor == false)
 		{
 			foreach(Transform child in _toolMount)
 			{

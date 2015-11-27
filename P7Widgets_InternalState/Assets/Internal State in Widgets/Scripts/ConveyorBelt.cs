@@ -6,6 +6,9 @@ public class ConveyorBelt : MonoBehaviour {
 	private AudioSource _audio;
 	private AudioClip _conveyorSound;					//The sound of the conveyor belt 
 
+    private Animation _animation;
+    private AnimationClip _conveyorBeltClip;
+
 	void Awake()
 	{
 		_audio = GetComponent<AudioSource>();

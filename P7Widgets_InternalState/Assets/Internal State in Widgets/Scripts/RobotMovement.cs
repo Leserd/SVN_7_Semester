@@ -6,7 +6,7 @@ public class RobotMovement : MonoBehaviour
 {
 
 	Rigidbody _rigid;											//The rigidbody component
-	float _speed = 2f;								
+	[SerializeField]float _speed = 2f;								
 	float _decelerationSpeed = 0.96f;
 	float _decelerationSpeedFalling = 0.98f;
 	[SerializeField]bool _grounded = false;
@@ -77,12 +77,13 @@ public class RobotMovement : MonoBehaviour
 			{
                 if (_collisions[i] == null) _collisions.RemoveAt(i);
 
-				Vector3 dir = (_collisions[i].transform.position - gameObject.transform.position).normalized;
+                //Remove from collisions if its collider is disabled
+                if (_collisions[i].gameObject.GetComponent<BoxCollider>())
+                    if (_collisions[i].gameObject.GetComponent<BoxCollider>().enabled == false)
+                        _collisions.Remove(_collisions[i].gameObject);
 
-				//Remove from collisions if it is disabled
-				if(_collisions[i].gameObject.GetComponent<BoxCollider>())
-					if(_collisions[i].gameObject.GetComponent<BoxCollider>().enabled == false)
-						_collisions.Remove(_collisions[i].gameObject);
+
+                Vector3 dir = (_collisions[i].transform.position - gameObject.transform.position).normalized;
 
 				if(dir.y > 0)
 				{
@@ -146,7 +147,7 @@ public class RobotMovement : MonoBehaviour
 
 
 	void OnCollisionEnter(Collision col)
-	{
+    { 
 		if(col.gameObject.tag == "Ground")
 		{
 			//Check in which direction the collision occured

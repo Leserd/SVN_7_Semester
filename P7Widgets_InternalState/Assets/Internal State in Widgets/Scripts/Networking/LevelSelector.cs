@@ -25,12 +25,13 @@ public class LevelSelector : NetworkBehaviour {
 
 	void ToggleCanvas()
 	{
-		if(!isServer && isClient)
+		if(!isServer)
 		{
 			if(GameObject.Find("ToolboxCanvas") && GameObject.Find("ToolboxCamera"))
 			{
 				GameObject.Find("ToolboxCanvas").GetComponent<Canvas>().enabled = true;
 				GameObject.Find("LevelCamera").GetComponent<Camera>().enabled = false;
+                GameStateManager.State = GameState.TOOLBOX;
 			}
 		}
 
@@ -41,7 +42,8 @@ public class LevelSelector : NetworkBehaviour {
 			{
 				GameObject.Find("LevelCanvas").GetComponent<Canvas>().enabled = true;
 				GameObject.Find("ToolboxCamera").GetComponent<Camera>().enabled = false;
-			}
+                GameStateManager.State = GameState.GAME;
+            }
 		}
 	}
 

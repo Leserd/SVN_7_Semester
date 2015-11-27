@@ -14,6 +14,8 @@ public class turret3D : MonoBehaviour {
     public float fireRate;
     public GameObject barrel;
 
+    public bool canShoot = false;
+
     private float nextFire;
 
     public float levelToEnable = 4;
@@ -51,6 +53,7 @@ public class turret3D : MonoBehaviour {
 
             transform.Rotate(0, 0, speed * Time.deltaTime);
         }
+
     }
 
 

@@ -26,7 +26,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 160640}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.86999989, y: 1.28999996, z: 0}
+  m_LocalPosition: {x: -3.86999989, y: 10.8400002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -112,26 +112,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43a7e70c62ccceb4083ed439598f0cbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  robotPrefab: {fileID: 124678, guid: 245050b59ce65cf48838c7641a0b256d, type: 2}
+  useTwoDevices: 0
+  robotPrefab: {fileID: 117410, guid: d96d618dd962a964394e3466de18ef8c, type: 2}
   clawPrefab: {fileID: 124736, guid: b0c89d9bdd132594e90fca86114b5068, type: 2}
-  robotsToSpawn: 02000000030000000200000003000000
-  scoreToWin: 02000000020000000100000003000000
-  scoreText: {fileID: 0}
-  remainingText: {fileID: 0}
-  levelText: {fileID: 0}
+  toolboxCanvas: {fileID: 0}
+  gameCanvas: {fileID: 0}
+  toolboxCamera: {fileID: 0}
+  gameCamera: {fileID: 0}
+  toolboxButton: {fileID: 0}
+  levelStar: {fileID: 0}
+  levelStarMenu: {fileID: 0}
+  robotsToSpawn: 02000000030000000300000002000000
+  scoreToWin: 01000000010000000100000001000000
+  menuShown: 0
   cam: {fileID: 0}
   settingsPanel: {fileID: 0}
   gameMenuPanel: {fileID: 0}
   levelCompletePanel: {fileID: 0}
   retryLevelPanel: {fileID: 0}
   finalScorePanel: {fileID: 0}
-  levelTextMenu: {fileID: 0}
   savedToolFill: {fileID: 0}
   players:
   - {fileID: 0}
   - {fileID: 0}
-  _robotExplosionSound: {fileID: 0}
+  _robotExplosionSound: {fileID: 8300000, guid: aeae0013d1e46c747bff415a778c87ca,
+    type: 3}
   _robotScoreSound: {fileID: 0}
+  levelCompleteSound: {fileID: 8300000, guid: fb62bc44081300c4bbc6245e7506b886, type: 3}
   algorithm: {fileID: 0}
   levelLocations:
   - {fileID: 0}
@@ -141,6 +148,9 @@ MonoBehaviour:
   _levelDisc: {fileID: 0}
   _toolboxDisc: {fileID: 0}
   _firstGoal: {fileID: 0}
+  explosion: {fileID: 146712, guid: a9719f4fc5343ac4d8e7477778dec4d9, type: 2}
+  spawnCountdownText: {fileID: 0}
+  guiRobotPrefab: {fileID: 11430618, guid: ff6630ccfe2df0943afbdab74fbbd850, type: 2}
 --- !u!114 &11422552
 MonoBehaviour:
   m_ObjectHideFlags: 1

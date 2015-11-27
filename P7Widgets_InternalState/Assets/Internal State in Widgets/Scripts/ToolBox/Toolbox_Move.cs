@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class Toolbox_Move : MonoBehaviour {
 
 	private float _maxX;
-	private float _minX = SPACE_BETWEEN_TOOlS;
 
 	private float _panSpeed = 10f;
 
@@ -21,8 +20,11 @@ public class Toolbox_Move : MonoBehaviour {
 	public Button leftArrow, rightArrow;
 
     const float SPACE_BETWEEN_TOOlS = 700;
+    private float _minX = SPACE_BETWEEN_TOOlS;
 
-	void Start()
+
+
+    void Start()
 	{
 		if(leftArrow != null)
 			leftArrow.interactable = false;
