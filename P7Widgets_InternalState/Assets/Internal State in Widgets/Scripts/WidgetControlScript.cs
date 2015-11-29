@@ -27,11 +27,12 @@ public class WidgetControlScript : NetworkBehaviour {
 	private GameObject _networkObject;							//The object that each client has authority over
 
 	float WIDGET_TOOL_DIST_THRESHOLD;							//Minimum distance between tool and widget before it counts as touching
-	float PICK_UP_TIME = 1;										//The time the widget has to be held on the tool to pick it up
+	float PICK_UP_TIME = 0.6f;										//The time the widget has to be held on the tool to pick it up
 	float _pickUpElapsedTime = 0;								//The current amount of time the widget has been on the tool
 	bool _isOnTool = false;
 
     private bool hidden = true;                                 //The visible state of the widget's tool
+    private bool _isActive = false;                             //If this widget is currently active
 
 	public AudioClip pickUpToolSound;			
 	public AudioClip showToolSound;
@@ -153,6 +154,9 @@ public class WidgetControlScript : NetworkBehaviour {
                 //Update progress bar of tool saving
                 UpdateProgressBar();
 
+                //Update progress of replacing current tool
+                UpdateReplaceTool();
+
                 break;
         }
     }
@@ -170,6 +174,8 @@ public class WidgetControlScript : NetworkBehaviour {
         {
             if (w.flags.Contains(_widgetIndex))                 //If this widget IS detected...
             {
+                
+
                 // Update position and orientation
                 MoveWidget(w);
 
@@ -229,7 +235,7 @@ public class WidgetControlScript : NetworkBehaviour {
         //Position
         Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward;
         pos = new Vector3(pos.x, pos.y, 0);
-
+        _isActive = true;
         if (!hidden)
         {
             transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * _smoothSpeed);
@@ -254,7 +260,8 @@ public class WidgetControlScript : NetworkBehaviour {
 		{
 			//TODO: Revert (via animation) back to normal size/shape
 			_isOnTool = false;
-			_pickUpElapsedTime = 0;
+            GameObject.Find("ToolboxPanel").GetComponent<Toolbox_Move>().CurrentImage.transform.GetChild(0).GetComponent<Image>().rectTransform.localScale = new Vector3(1, 1, 1);
+            _pickUpElapsedTime = 0;
 		}
 	}
 
@@ -289,8 +296,12 @@ public class WidgetControlScript : NetworkBehaviour {
                 {
                     _isOnTool = true;
                     _pickUpElapsedTime += Time.deltaTime;   //time counts up
-                   //TODO: Start picking-up effect on image
-
+                    //TODO: Start placing-back effect on image
+                    if (_tool != null && _placingToolBack == false)
+                    {
+                        //StartCoroutine(PlaceToolBack(_tool.GetComponent<ToolID>().ID));
+                        StartPlacingToolBack();
+                    }
 
                     if (_pickUpElapsedTime >= PICK_UP_TIME) //If the widget has been on the tool long enough
                     {
@@ -306,12 +317,12 @@ public class WidgetControlScript : NetworkBehaviour {
 
                             if(_tool != null)
                             {
-                                print("tool not null");
+                                //print("tool not null");
                                 _networkObject.GetComponent<ToolAssign>().PickUpTool(_widgetIndex, _tool.GetComponent<ToolID>().ID, ta.toolToAssign);
                             }
                             else
                             {
-                                print("tool null");
+                                //print("tool null");
                                 _networkObject.GetComponent<ToolAssign>().PickUpTool(_widgetIndex, 0, ta.toolToAssign);
                             }
                             //_networkObject.GetComponent<ToolAssign>().CmdAssign(_widgetIndex, ta.toolToAssign);
@@ -345,9 +356,127 @@ public class WidgetControlScript : NetworkBehaviour {
 
 	void UpdateProgressBar()
 	{
-		if(_readyToPickup)
-            toolSaveFill.fillAmount = Mathf.Clamp01(_pickUpElapsedTime);
-	}
+        if (_isOnTool == true)
+        {
+            if (_readyToPickup && _isActive == true)
+            {
+                // float scale = 1 - PICK_UP_TIME / Mathf.Clamp01( (_pickUpElapsedTime * _pickUpElapsedTime));
+                float scale = 1 - (_pickUpElapsedTime / PICK_UP_TIME) * (_pickUpElapsedTime / PICK_UP_TIME);  //quadratic interpolation
+                Image currentTool = GameObject.Find("ToolboxPanel").GetComponent<Toolbox_Move>().CurrentImage.transform.GetChild(0).GetComponent<Image>();
+                // print(scale + ", " + tool.name);
+
+                currentTool.rectTransform.localScale = new Vector3(scale, scale, 1);
+            }
+        }
+    }
+
+
+
+
+    float _placeElapsedTime = 0;
+    bool _placingToolBack = false;
+
+    private void StartPlacingToolBack()
+    {
+        //print("PlaceToolBack Started");
+        _placingToolBack = true;
+        Image toolImage = GameObject.Find("ToolboxPanel").GetComponent<Toolbox_Move>().GetToolImage(_tool.GetComponent<ToolID>().ID).transform.GetChild(0).GetComponent<Image>();
+        //Vector3 destination = toolImage.rectTransform.position;
+        toolImage.rectTransform.position = Camera.main.WorldToScreenPoint(transform.position);
+
+        toolImage.enabled = true;
+    }
+
+
+
+    private void UpdateReplaceTool()
+    {
+        if (_tool != null)
+        {
+            Image toolImage = GameObject.Find("ToolboxPanel").GetComponent<Toolbox_Move>().GetToolImage(_tool.GetComponent<ToolID>().ID).transform.GetChild(0).GetComponent<Image>();
+            Vector3 destination = toolImage.rectTransform.parent.position;
+
+            if (_placingToolBack)
+            {
+                if (_isOnTool && _placeElapsedTime < PICK_UP_TIME)
+                {
+                    _placeElapsedTime += Time.deltaTime;
+                    float scale = (_placeElapsedTime / PICK_UP_TIME) * (_placeElapsedTime / PICK_UP_TIME);
+
+                    toolImage.rectTransform.localScale = new Vector3(scale, scale, 1);
+                    toolImage.rectTransform.position = Vector3.Lerp(toolImage.rectTransform.position, destination, (_placeElapsedTime / PICK_UP_TIME) * (_placeElapsedTime / PICK_UP_TIME) * (_placeElapsedTime / PICK_UP_TIME));
+                }
+                else if (_isOnTool && _placeElapsedTime >= PICK_UP_TIME)
+                {
+                    _placeElapsedTime = 0;
+                    toolImage.rectTransform.localScale = new Vector3(1, 1, 1);
+                    _placingToolBack = false;
+                    toolImage.rectTransform.anchoredPosition = Vector3.zero;
+                }
+                else
+                {
+                    _placingToolBack = false;
+                }
+            }
+            else
+            {
+                //if widget is no longer active, stop this 
+                toolImage.rectTransform.localScale = new Vector3(0, 0, 0);
+                toolImage.rectTransform.position = destination;
+                toolImage.enabled = false;
+                _placeElapsedTime = 0;
+                _placingToolBack = false;
+            }
+        }
+    }
+
+
+
+    //IEnumerator PlaceToolBack(int toolID)
+    //{
+    //    print("PlaceToolBack Started");
+    //    _placingToolBack = true;
+    //    Image toolImage = GameObject.Find("ToolboxPanel").GetComponent<Toolbox_Move>().GetToolImage(toolID).transform.GetChild(0).GetComponent<Image>();
+    //   // Vector3 destination = toolImage.rectTransform.position;
+    //    Vector3 destination = toolImage.rectTransform.parent.position;
+    //    toolImage.rectTransform.position = Camera.main.WorldToScreenPoint(transform.position);
+    //    //toolImage.rectTransform.
+    //    //toolImage.rectTransform.anchoredPosition = new Vector2(Screen.width/2, Screen.height/2);
+    //    toolImage.enabled = true;
+        
+
+    //    while(_placeElapsedTime < PICK_UP_TIME)
+    //    {
+            
+    //        if (_isOnTool == false)
+    //        {
+    //            //if widget is no longer active, stop this coroutine
+    //            toolImage.rectTransform.localScale = new Vector3(0, 0, 0);
+    //            print("No longer active");
+    //            toolImage.enabled = false;
+    //            _placeElapsedTime = 0;
+    //            _placingToolBack = false;
+    //            StopCoroutine("PlaceToolBack");
+    //            break;
+    //        }
+
+    //        _placeElapsedTime += Time.deltaTime;
+    //        float scale = (_placeElapsedTime / PICK_UP_TIME) * (_placeElapsedTime / PICK_UP_TIME);
+
+    //        toolImage.rectTransform.localScale = new Vector3(scale, scale, 1);
+    //        toolImage.rectTransform.position = Vector3.Lerp(toolImage.rectTransform.position, destination, (_placeElapsedTime / PICK_UP_TIME) * (_placeElapsedTime / PICK_UP_TIME));
+    //        yield return new WaitForEndOfFrame();
+    //    }
+
+    //    print("corouritne over");
+    //    _placeElapsedTime = 0;
+    //    toolImage.rectTransform.localScale = new Vector3(1, 1, 1);
+    //    _placingToolBack = false;
+    //    toolImage.rectTransform.anchoredPosition = Vector3.zero;
+    //    StopCoroutine("PlaceToolBack");
+
+    //}
+
 
 
 	//Save the player's own network object to _networkObject variable
@@ -409,7 +538,7 @@ public class WidgetControlScript : NetworkBehaviour {
 	{
         if (hidden != false)
             hidden = false;
-
+        _isActive = true;
         foreach (Transform child in _toolMount)
 		{
 
@@ -447,7 +576,7 @@ public class WidgetControlScript : NetworkBehaviour {
 	{
         if (hidden != true)
             hidden = true;
-
+        _isActive = false;
         if (Application.isEditor == false)
 		{
 			foreach(Transform child in _toolMount)

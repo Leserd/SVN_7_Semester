@@ -162,6 +162,21 @@ public class Toolbox_Move : MonoBehaviour
 
 
 
+    public Image GetToolImage(int toolID)
+    {
+        for(int i = 0; i < _toolImages.Count; i++)
+        {
+            if(_toolImages[i].toolToAssign == toolID)
+            {
+                return _toolImages[i].GetComponent<Image>();
+            }
+        }
+
+        return null;
+    }
+
+
+
     void UpdateArrowButtons()
     {
         leftArrow.interactable = !_moving;

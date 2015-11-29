@@ -48,6 +48,7 @@ GameObject:
   - 111: {fileID: 11108362}
   - 65: {fileID: 6543432}
   - 114: {fileID: 11416332}
+  - 114: {fileID: 11470546}
   m_Layer: 0
   m_Name: GoalLift
   m_TagString: Goal
@@ -598,6 +599,17 @@ MonoBehaviour:
   level: 1
   goalOpenClip: {fileID: 7400000, guid: a33206171f8bfb54eb85af8317c2480a, type: 2}
   goalCloseClip: {fileID: 7400000, guid: 775e81a7263bda74d98f82afe2bdb341, type: 2}
+--- !u!114 &11470546
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 115040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 814a442a9abd9b942968db4df80de704, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -119,9 +119,14 @@ public class GameManagerScript : NetworkBehaviour {
 		if(levelStarMenu == null) levelStarMenu = GameObject.Find("LevelStarMenu").GetComponent<Image>();
         if (levelStarComplete == null) levelStarComplete = GameObject.Find("LevelStarComplete").GetComponent<Image>();
         if (levelStarFailed == null) levelStarFailed = GameObject.Find("LevelStarFailed").GetComponent<Image>();
-        if (toolboxButton == null) toolboxButton = GameObject.Find("ToolboxButtonOpener").GetComponent<Button>();
         if (levelStar == null) levelStar = GameObject.Find("LevelStar").GetComponent<Image>();
 
+        if (toolboxButton == null) toolboxButton = GameObject.Find("ToolboxButtonOpener").GetComponent<Button>();
+
+        if (useTwoDevices)
+        {
+            toolboxButton.enabled = false;
+        }
 
         if (levelLocations.Length == 0)
 			Debug.LogError("No level locations are assigned in the GameManager object!");
@@ -145,15 +150,16 @@ public class GameManagerScript : NetworkBehaviour {
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.Space))
 		{
-            ToggleToolbox();
+            GameVariables.CurrentGoal.Open();
+            GameVariables.CurrentSpawn.GetComponent<Spawner>().Open();
 		}
         if(toolboxButton != null)
         {
-            if (Network.connections.Length > 1 && toolboxButton.enabled == true){
+            if (Network.connections.Length > 0 && toolboxButton.enabled == true){
                 toolboxButton.enabled = false;
             }
         }
-        
+        //print(Network.connections.Length);
 	}
 
 
@@ -349,12 +355,12 @@ public class GameManagerScript : NetworkBehaviour {
         ResetVariables();
         _currentLevel++;
 		_currentLevelLocation = levelLocations[_currentLevel - 1];
-
+        //DebugConsole.Log("PrepareNewLevel");
         
 
         //Enable new goal object
-        //GameVariables.CurrentGoal = GameVariables.GameManager.CurrentLevelLocation.GetComponentInChildren<Goal>();
-        GameVariables.CurrentGoal = GameVariables.GameManager.CurrentLevelLocation.FindChild("GoalLift").gameObject.AddComponent<Goal>();
+        //GameVariables.CurrentSpawn = GameVariables.GameManager.CurrentLevelLocation.GetComponentInChildren<Spawner>().transform;
+        GameVariables.CurrentGoal = GameVariables.GameManager.CurrentLevelLocation.GetComponentInChildren<ThisIsGoal>().gameObject.AddComponent<Goal>();
 		GameVariables.CurrentGoal.level = GameVariables.GameManager.CurrentLevel;
         //GameVariables.CurrentGoal.enabled = true;
 
@@ -393,6 +399,7 @@ public class GameManagerScript : NetworkBehaviour {
 	//This is called when game is lost
 	public void LoseGame()
 	{
+        ResetVariables();
 		retryLevelPanel.SetActive(true);
         GameVariables.CurrentGoal.Close();
         GameVariables.CurrentSpawn.GetComponent<Spawner>().Close();
@@ -452,8 +459,23 @@ public class GameManagerScript : NetworkBehaviour {
 	{
 		Debug.Log("GameOver");
         PlaySound(levelCompleteSound);
-        Text finalScore = finalScorePanel.transform.FindChild("FinalScore").GetComponent<Text>();
-		finalScore.text = "Robots: " + _savedRobots.ToString() + " / " + CalculateMaxRobots() + "\n" + "Retries: " + _retries;
+        //Text finalScore = finalScorePanel.transform.FindChild("FinalScore").GetComponent<Text>();
+		//finalScore.text = "Robots: " + _savedRobots.ToString() + " / " + CalculateMaxRobots() + "\n" + "Retries: " + _retries;
+
+   
+        //Show saved robots
+        for(int i = 0; i < 10; i++)
+        {
+            if(i >= _savedRobots)
+            {
+                Image img = finalScorePanel.transform.FindChild("RobotsSaved" + (i + 1)).GetComponent<Image>();
+                img.sprite = Resources.Load<Sprite>("GUI/RobotGUI/RobotDead");
+            }
+        }
+
+        Text retriesText = finalScorePanel.transform.FindChild("RetriesUsed").transform.GetChild(0).GetComponent<Text>();
+        retriesText.text = _retries.ToString() + "x";
+
 		finalScorePanel.SetActive(true);
     }
 
@@ -527,6 +549,7 @@ public class GameManagerScript : NetworkBehaviour {
             yield return new WaitForEndOfFrame();
         }
         spawnCountdownText.text = "GO";
+        //DebugConsole.Log(GameVariables.CurrentGoal.name + " , " + GameVariables.CurrentSpawn.name);
         GameVariables.CurrentSpawn.GetComponent<Spawner>().Open();
         GameVariables.CurrentGoal.Open();
         InvokeRepeating("Spawn", DELAY_BEFORE_START_SPAWN, SPAWN_RATE);

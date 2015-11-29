@@ -25,7 +25,13 @@ public class Goal : MonoBehaviour {
 			this.enabled = false;
 
         _animation = GetComponent<Animation>();
-	}
+
+        if (goalOpenClip == null)
+            goalOpenClip = Resources.Load<AnimationClip>("Animations/GoalLift/GoalOpen");
+
+        if (goalCloseClip == null)
+            goalCloseClip = Resources.Load<AnimationClip>("Animations/GoalLift/GoalClose");
+    }
 
 
 
@@ -105,12 +111,16 @@ public class Goal : MonoBehaviour {
         //Assign this as new spawn location
         GameVariables.CurrentSpawn = transform;
 
+        gameObject.name = "Spawner" + (GameVariables.GameManager.CurrentLevel+1);
 
 		//Tell game manager to prepare for a new level
 		GameVariables.GameManager.PrepareNewLevel();
 
 		//Destroy this Goal component as it will from now on only be a spawner
 		Destroy(GetComponent<Goal>());
+        if (GetComponent<ThisIsGoal>())
+            Destroy(GetComponent<ThisIsGoal>());
+
 	}
 
 
@@ -118,7 +128,14 @@ public class Goal : MonoBehaviour {
     {
         if(goalOpenClip != null && GetComponent<Animation>())
         {
-            GetComponent<Animation>().Play(goalOpenClip.name);
+            //AnimationClip open = Resources.Load<AnimationClip>("Animations/GoalLift/GoalOpen");
+            //_animation.Play(open.name);
+            _animation.Play(goalOpenClip.name);
+            //DebugConsole.Log("Playing goal open");
+        }
+        else
+        {
+            //DebugConsole.Log("Can't play goalOpen");
         }
     }
 
@@ -129,6 +146,11 @@ public class Goal : MonoBehaviour {
         if (goalCloseClip != null && GetComponent<Animation>())
         {
             GetComponent<Animation>().Play(goalCloseClip.name);
+           // DebugConsole.Log("Playing goal close");
+        }
+        else
+        {
+           // DebugConsole.Log("Can't play goal close");
         }
     }
 }

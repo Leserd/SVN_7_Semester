@@ -9,7 +9,7 @@ public class ToolID : MonoBehaviour {
     public int ID
     {
         get {
-            print("ID is :" + _id);
+            //print("ID is :" + _id);
             return _id;
             
         }

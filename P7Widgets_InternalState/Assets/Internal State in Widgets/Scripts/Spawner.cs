@@ -13,6 +13,13 @@ public class Spawner : MonoBehaviour {
     public void Awake()
     {
         _animation = GetComponent<Animation>();
+
+
+        if (spawnOpenClip == null)
+            spawnOpenClip = Resources.Load<AnimationClip>("Animations/GoalLift/SpawnOpen");
+
+        if (spawnCloseClip == null)
+            spawnCloseClip = Resources.Load<AnimationClip>("Animations/GoalLift/SpawnClose");
     }
 
 
@@ -21,7 +28,14 @@ public class Spawner : MonoBehaviour {
     {
         if (spawnOpenClip != null)
         {
+            //AnimationClip open = Resources.Load<AnimationClip>("Animations/GoalLift/SpawnOpen");
+            //_animation.Play(open.name);
             _animation.Play(spawnOpenClip.name);
+            //DebugConsole.Log("Playing spawn open");
+        }
+        else
+        {
+            //DebugConsole.Log("Can't play spawnOpen");
         }
     }
 
@@ -32,6 +46,11 @@ public class Spawner : MonoBehaviour {
         if (spawnCloseClip != null)
         {
             _animation.Play(spawnCloseClip.name);
+            //DebugConsole.Log("Playing spawn close");
+        }
+        else
+        {
+            //DebugConsole.Log("Can't play spawn close");
         }
     }
 }

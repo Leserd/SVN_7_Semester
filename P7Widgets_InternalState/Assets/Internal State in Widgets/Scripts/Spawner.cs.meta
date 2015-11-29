@@ -1,12 +1,12 @@
 fileFormatVersion: 2
 guid: 7e5cac2bd71e2334a81d65e58259d2e4
-timeCreated: 1448133484
+timeCreated: 1448798988
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
   defaultReferences:
-  - spawnOpenClip: {fileID: 7400000, guid: 2971fbc62b3ff5b48a9225a16c815c5d, type: 2}
-  - spawnCloseClip: {fileID: 7400000, guid: d7dbe76a0f619564d9ddb1b029c88122, type: 2}
+  - spawnOpenClip: {fileID: 7400000, guid: a83fbfa28562c4a44b1480f6a3a2d327, type: 2}
+  - spawnCloseClip: {fileID: 7400000, guid: e2e6f300f2b1e8d48838d56fc8d6d835, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

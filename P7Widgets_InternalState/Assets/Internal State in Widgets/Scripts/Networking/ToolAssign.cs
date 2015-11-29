@@ -167,7 +167,7 @@ public class ToolAssign : NetworkBehaviour {
     public void PickUpTool(int widgetID, int oldToolID, int newToolID)
     {
         //savedTools.Add(newToolID);
-        print("PickUpTool: " + widgetID + "," + oldToolID + "," + newToolID);
+        //print("PickUpTool: " + widgetID + "," + oldToolID + "," + newToolID);
         if(oldToolID != 0)
         {
             EnableTool(oldToolID);
@@ -188,7 +188,7 @@ public class ToolAssign : NetworkBehaviour {
     public void EnableTool(int toolID)
     {
         Image img = toolboxList[toolID - 1].transform.GetChild(0).GetComponent<Image>();
-        print(img.name);
+        //print(img.name);
 
         if (savedTools.Contains(toolID))
             savedTools.Remove(toolID);
